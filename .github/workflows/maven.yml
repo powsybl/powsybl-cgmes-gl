@@ -13,6 +13,15 @@ jobs:
         with:
           java-version: 1.8
 
+      - name: Checkout network geo-data sources
+        uses: actions/checkout@v1
+        with:
+          repository: powsybl/powsybl-geo-data
+          ref: refs/heads/master
+
+      - name: Build and install powsybl geo data with Maven
+        run: mvn --batch-mode  -DskipTests=true --file ../powsybl-geo-data/pom.xml install
+
       - name: Checkout sources
         uses: actions/checkout@v1
 
