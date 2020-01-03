@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>
  */
 @RestController
-@RequestMapping(value = CgmesGlController.API_VERSION)
+@RequestMapping(value = "/" + CgmesGlController.API_VERSION + "/")
 @Api(value = "Cgmes gl")
 @ComponentScan(basePackageClasses = {CgmesGlController.class})
 public class CgmesGlController {
