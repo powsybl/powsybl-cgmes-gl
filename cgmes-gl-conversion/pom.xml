@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2020, RTE (http://www.rte-france.com)
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -10,7 +16,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>powsybl-cgmes-gl-conversion</artifactId>
-    <description>Import export gl profiles</description>
+    <name>Cgmes gl conversion</name>
+    <description>Import export cgmes gl profiles</description>
 
     <dependencies>
         <dependency>
@@ -23,16 +30,19 @@
             <artifactId>powsybl-cgmes-model</artifactId>
             <version>${powsyblcore.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-iidm-api</artifactId>
             <version>${powsyblcore.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-triple-store-api</artifactId>
             <version>${powsyblcore.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-geo-data-extensions</artifactId>
@@ -47,26 +57,23 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-iidm-impl</artifactId>
             <version>${powsyblcore.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
+            <artifactId>mockito-core</artifactId>
         </dependency>
     </dependencies>
 
