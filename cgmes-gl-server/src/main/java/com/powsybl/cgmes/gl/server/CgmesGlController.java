@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,10 @@ public class CgmesGlController {
 
     static final String API_VERSION = "v1";
 
-    private static Set<Country> toCountrySet(@RequestParam(required = false) List<String> countries) {
+    @Autowired
+    private CgmesGlService cgmesGlService;
+
+    private static Set<Country> toCountrySet(List<String> countries) {
         return countries != null ? countries.stream().map(Country::valueOf).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
@@ -39,7 +43,8 @@ public class CgmesGlController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "cgmes gl profiles were analysed and sent to geo-data service")})
     public void togeodata(@PathVariable String caseName,
                           @RequestParam(required = false) List<String> countries) {
-        //TO DO
+        Set<Country> countrySet = toCountrySet(countries);
+        cgmesGlService.toGeodDataServer(caseName, countrySet);
     }
 }
 

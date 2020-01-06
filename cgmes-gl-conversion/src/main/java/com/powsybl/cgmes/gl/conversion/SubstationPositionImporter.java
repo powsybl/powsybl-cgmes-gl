@@ -40,7 +40,8 @@ public class SubstationPositionImporter {
         Substation substation = network.getSubstation(substationId);
         if (substation != null) {
             SubstationPosition substationPosition = new SubstationPosition(substation,
-                    new Coordinate(substationPositionData.asDouble("x"), substationPositionData.asDouble("y")));
+                    new Coordinate(substationPositionData.asDouble("y"), substationPositionData.asDouble("x")));
+            // y <=> lat, x <=> lon
             substation.addExtension(SubstationPosition.class, substationPosition);
         } else {
             LOG.warn("Cannot find substation {}, name {} in network {}: skipping substation position", substationId, substationPositionData.get("name"), network.getId());

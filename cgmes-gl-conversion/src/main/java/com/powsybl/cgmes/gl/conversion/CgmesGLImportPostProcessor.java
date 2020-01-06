@@ -8,7 +8,6 @@ package com.powsybl.cgmes.gl.conversion;
 
 import com.google.auto.service.AutoService;
 import com.powsybl.cgmes.conversion.CgmesImportPostProcessor;
-import com.powsybl.cgmes.conversion.Profiling;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.triplestore.api.QueryCatalog;
 import com.powsybl.triplestore.api.TripleStore;
@@ -43,10 +42,10 @@ public class CgmesGLImportPostProcessor implements CgmesImportPostProcessor {
     }
 
     @Override
-    public void process(Network network, TripleStore tripleStore, Profiling profiling) {
+    public void process(Network network, TripleStore tripleStore) {
         LOG.info("Execute {} CGMES import post processor on network {}", getName(), network.getId());
         CgmesGLModel cgmesGLModel = new CgmesGLModel(tripleStore, queryCatalog);
-        new CgmesGLImporter(network, cgmesGLModel, profiling).importGLData();
+        new CgmesGLImporter(network, cgmesGLModel).importGLData();
     }
 
 }

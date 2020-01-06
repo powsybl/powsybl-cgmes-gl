@@ -6,7 +6,6 @@
  */
 package com.powsybl.cgmes.gl.conversion;
 
-import com.powsybl.cgmes.conversion.Profiling;
 import com.powsybl.geodata.extensions.GLTestUtils;
 import com.powsybl.iidm.network.Network;
 import org.junit.Test;
@@ -20,7 +19,7 @@ public class CgmesGLImportPostProcessorTest extends CgmesGLModelTest  {
     @Test
     public void process() {
         Network network = GLTestUtils.getNetwork();
-        new CgmesGLImportPostProcessor(queryCatalog).process(network, tripleStore, new Profiling());
+        new CgmesGLImportPostProcessor(queryCatalog).process(network, tripleStore);
         GLTestUtils.checkNetwork(network);
     }
 

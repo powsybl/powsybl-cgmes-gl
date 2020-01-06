@@ -6,7 +6,6 @@
  */
 package com.powsybl.cgmes.gl.conversion;
 
-import com.powsybl.cgmes.conversion.Profiling;
 import com.powsybl.iidm.network.Network;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,41 +22,26 @@ public class CgmesGLImporter {
 
     private Network network;
     private CgmesGLModel cgmesGLModel;
-    private Profiling profiling;
-    private boolean logProfile = false;
 
     public CgmesGLImporter(Network network, CgmesGLModel cgmesGLModel) {
-        this(network, cgmesGLModel, new Profiling());
-        logProfile = true;
-    }
-
-    public CgmesGLImporter(Network network, CgmesGLModel cgmesGLModel, Profiling profiling) {
         this.network = Objects.requireNonNull(network);
         this.cgmesGLModel = Objects.requireNonNull(cgmesGLModel);
-        this.profiling = Objects.requireNonNull(profiling);
     }
 
     public void importGLData() {
         importSubstationsPosition();
         importLinesPosition();
-        if (logProfile) {
-            profiling.report();
-        }
     }
 
     private void importSubstationsPosition() {
         LOG.info("Importing substations position");
-        profiling.start();
         SubstationPositionImporter positionImporter = new SubstationPositionImporter(network);
         cgmesGLModel.getSubstationsPosition().forEach(positionImporter::importPosition);
-        profiling.end("SubstationsPostion");
     }
 
     private void importLinesPosition() {
         LOG.info("Importing lines position");
-        profiling.start();
         new LinePositionImporter(network, cgmesGLModel).importPosition();
-        profiling.end("LinesPostion");
     }
 
 }

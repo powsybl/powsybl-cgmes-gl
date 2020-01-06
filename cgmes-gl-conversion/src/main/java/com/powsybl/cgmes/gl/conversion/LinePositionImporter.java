@@ -64,12 +64,14 @@ public class LinePositionImporter {
         Line line = network.getLine(lineId);
         if (line != null) {
             lineCoordinates.computeIfAbsent(line, k -> new TreeMap<>())
-                    .put(linePositionData.asInt("seq"), new Coordinate(linePositionData.asDouble("x"), linePositionData.asDouble("y")));
+                    .put(linePositionData.asInt("seq"), new Coordinate(linePositionData.asDouble("y"), linePositionData.asDouble("x")));
+                     // y <=> lat, x <=> lon
         } else {
             DanglingLine danglingLine = network.getDanglingLine(lineId);
             if (danglingLine != null) {
                 danglingLineCoordinates.computeIfAbsent(danglingLine, k -> new TreeMap<>())
-                        .put(linePositionData.asInt("seq"), new Coordinate(linePositionData.asDouble("x"), linePositionData.asDouble("y")));
+                        .put(linePositionData.asInt("seq"), new Coordinate(linePositionData.asDouble("y"), linePositionData.asDouble("x")));
+                        // y <=> lat, x <=> lon
             } else {
                 LOG.warn("Cannot find line/dangling {}, name {} in network {}: skipping line position", lineId, linePositionData.get("name"), network.getId());
             }
