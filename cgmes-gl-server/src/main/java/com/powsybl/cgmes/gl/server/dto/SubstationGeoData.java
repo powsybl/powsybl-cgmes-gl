@@ -7,7 +7,9 @@
 package com.powsybl.cgmes.gl.server.dto;
 
 import com.powsybl.geodata.extensions.Coordinate;
+import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Country;
+import com.powsybl.iidm.network.Substation;
 import lombok.*;
 
 /**
@@ -25,4 +27,9 @@ public class SubstationGeoData {
     private Country country;
 
     private Coordinate coordinate;
+
+    public static SubstationGeoData fromSubstationPosition(SubstationPosition substationPosition) {
+        Substation s = (Substation) substationPosition.getExtendable();
+        return new SubstationGeoData(s.getId(), s.getCountry().orElse(null), substationPosition.getCoordinate());
+    }
 }

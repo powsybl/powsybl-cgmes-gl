@@ -6,6 +6,7 @@ package com.powsybl.cgmes.gl.server;
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import com.powsybl.cgmes.gl.server.services.CgmesGlService;
 import com.powsybl.iidm.network.Country;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>
  */
 @RestController
-@RequestMapping(value = "/" + CgmesGlController.API_VERSION + "/")
+@RequestMapping(value = "/" + CgmesGlController.API_VERSION)
 @Api(value = "Cgmes gl")
 @ComponentScan(basePackageClasses = {CgmesGlController.class})
 public class CgmesGlController {
@@ -38,7 +39,7 @@ public class CgmesGlController {
         return countries != null ? countries.stream().map(Country::valueOf).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
-    @PostMapping(value = CgmesGlController.API_VERSION + "/{caseName}/to-geo-data")
+    @PostMapping(value = "/{caseName}/to-geo-data")
     @ApiOperation(value = "extract geographic data from a cgmes case")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "cgmes gl profiles were analysed and sent to geo-data service")})
     public void togeodata(@PathVariable String caseName,

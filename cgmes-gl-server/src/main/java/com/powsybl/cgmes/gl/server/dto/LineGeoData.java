@@ -7,7 +7,9 @@
 package com.powsybl.cgmes.gl.server.dto;
 
 import com.powsybl.geodata.extensions.Coordinate;
+import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.iidm.network.Country;
+import com.powsybl.iidm.network.Line;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -31,4 +33,12 @@ public class LineGeoData {
     private Country country2;
 
     private List<Coordinate> coordinates = new ArrayList<>();
+
+    public static LineGeoData fromLinePosition(LinePosition linePosition) {
+        Line l = (Line) linePosition.getExtendable();
+        Country country1 = l.getTerminal1().getVoltageLevel().getSubstation().getCountry().orElse(null);
+        Country country2 = l.getTerminal2().getVoltageLevel().getSubstation().getCountry().orElse(null);
+
+        return new LineGeoData(l.getId(), country1, country2, linePosition.getCoordinates());
+    }
 }
