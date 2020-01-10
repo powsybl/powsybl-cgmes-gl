@@ -47,7 +47,7 @@ public class CgmesNetworkFromZipTest {
         checkExtensions(network, new HashSet<>());
     }
 
-    public void checkExtensions(Network network, Set<Country> countries) {
+    public static void checkExtensions(Network network, Set<Country> countries) {
         List<SubstationPosition> substationPositions = network.getSubstationStream()
                 .map(s -> (SubstationPosition) s.getExtension(SubstationPosition.class))
                 .filter(Objects::nonNull)

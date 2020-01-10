@@ -6,6 +6,7 @@
  */
 package com.powsybl.cgmes.gl.server.services;
 
+import com.powsybl.cgmes.gl.server.CgmesNetworkFromZipTest;
 import com.powsybl.iidm.network.Network;
 import org.apache.commons.compress.utils.IOUtils;
 import org.junit.Test;
@@ -46,7 +47,6 @@ public class CgmesGlServiceTest {
 
     @Test
     public void test() throws Exception {
-        // InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2.zip"))
         Path path = Paths.get("src/test/ressources/CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2.zip");
         try (InputStream inputStream = new FileInputStream(path.toString())) {
             assertNotNull(inputStream);
@@ -59,6 +59,7 @@ public class CgmesGlServiceTest {
 
             Network network = cgmesGlService.getNetwork("CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2.zip");
             assertNotNull(network);
+            CgmesNetworkFromZipTest.checkExtensions(network, new HashSet<>());
 
             cgmesGlService.toGeodDataServer("CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2.zip", new HashSet<>());
         }
