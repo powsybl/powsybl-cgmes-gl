@@ -109,6 +109,12 @@
             <version>${powsyblcore.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.jimfs</groupId>
+            <artifactId>jimfs</artifactId>
+            <version>${jimfs.version}</version>
+        </dependency>
+
         <!-- test scope -->
         <dependency>
             <groupId>${project.groupId}</groupId>

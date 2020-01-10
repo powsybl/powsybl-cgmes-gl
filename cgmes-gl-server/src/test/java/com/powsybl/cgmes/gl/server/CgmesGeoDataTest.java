@@ -29,10 +29,11 @@ public class CgmesGeoDataTest {
     public void test() {
         TestGridModel gridModel =  CgmesConformity1Catalog.microGridBaseCaseBE();
 
-        CgmesImport i = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
-        Network network = i.importData(gridModel.dataSource(), new NetworkFactoryImpl(), properties);
+
+        CgmesImport cgmesImporter = new CgmesImport();
+        Network network = cgmesImporter.importData(gridModel.dataSource(), new NetworkFactoryImpl(), properties);
 
         List<SubstationPosition> substationPositions = network.getSubstationStream()
                 .map(s -> (SubstationPosition) s.getExtension(SubstationPosition.class))
