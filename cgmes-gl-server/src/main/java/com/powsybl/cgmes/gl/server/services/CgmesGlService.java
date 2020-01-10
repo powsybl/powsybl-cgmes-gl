@@ -33,8 +33,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.File;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -106,7 +105,8 @@ public class CgmesGlService {
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
         Network network = importer.importData(ds, new NetworkFactoryImpl(), properties);
-
+        // delete the zip file
+        cleanStorage(new File(getStorageRootDir().toString()));
         return network;
     }
 
@@ -191,20 +191,18 @@ public class CgmesGlService {
         this.fileSystem = fileSystem;
     }
 
-    void deleteCase(String caseName) {
-        checkStorageInitialization();
-
-        Path file = getStorageRootDir().resolve(caseName);
-        if (Files.exists(file) && !Files.isRegularFile(file)) {
-            throw new CgmesException(CgmesGlConstants.FILE_DOESNT_EXIST);
+    private static void cleanStorage(File storageDir) {
+        File[] files = storageDir.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    cleanStorage(f);
+                } else {
+                    f.delete();
+                }
+            }
         }
-        try {
-            Files.delete(file);
-        } catch (NoSuchFileException e) {
-            throw new CgmesException(CgmesGlConstants.FILE_DOESNT_EXIST);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        storageDir.delete();
     }
 }
 
