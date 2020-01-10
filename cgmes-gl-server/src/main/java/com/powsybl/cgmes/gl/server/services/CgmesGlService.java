@@ -193,9 +193,9 @@ public class CgmesGlService {
 
     private static void cleanStorage(File storageDir) {
         File[] files = storageDir.listFiles();
-        if(files!=null) { //some JVMs return null for empty dirs
-            for(File f: files) {
-                if(f.isDirectory()) {
+        if (files != null) { //some JVMs return null for empty dirs
+            for (File f : files) {
+                if (f.isDirectory()) {
                     cleanStorage(f);
                 } else {
                     f.delete();
