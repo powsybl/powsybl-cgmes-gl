@@ -48,7 +48,7 @@
         <xmlunit.version>2.3.0</xmlunit.version>
         <jimfs.version>1.1</jimfs.version>
 
-        <powsyblcore.version>3.1.0-SNAPSHOT</powsyblcore.version>
+        <powsyblcore.version>3.1.0</powsyblcore.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ../cgmes-gl-distribution/target/site/jacoco-aggregate/jacoco.xml
