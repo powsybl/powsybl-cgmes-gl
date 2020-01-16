@@ -1,5 +1,5 @@
 package com.powsybl.cgmes.gl.server;
- /* Copyright (c) 2020, RTE (http://www.rte-france.com)
+/* Copyright (c) 2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -9,9 +9,9 @@ import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
 import com.powsybl.commons.datasource.DataSource;
-import com.powsybl.commons.datasource.ZipFileDataSource;
 import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.import_.Importers;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
@@ -34,8 +34,9 @@ public class CgmesNetworkFromZipTest {
     @Test
     public void test() {
 
-        Path path = Paths.get("src/test/ressources/");
-        DataSource ds = new ZipFileDataSource(path, "CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2");
+        Path path = Paths.get("src/test/ressources/CGMES_v2_4_15_MicroGridTestConfiguration_BC_BE_v2.zip");
+
+        DataSource ds = Importers.createDataSource(path);
         assertNotNull(ds);
 
         CgmesImport importer = new CgmesImport();

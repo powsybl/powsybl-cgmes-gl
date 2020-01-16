@@ -47,7 +47,7 @@ public class CgmesGlServiceTest {
 
     @Test
     public void test() throws Exception {
-        Path path = Paths.get("src/test/ressources/CGMES_v2.4.15_MicroGridTestConfiguration_BC_BE_v2.zip");
+        Path path = Paths.get("src/test/ressources/CGMES_v2_4_15_MicroGridTestConfiguration_BC_BE_v2.zip");
         try (InputStream inputStream = new FileInputStream(path.toString())) {
             assertNotNull(inputStream);
 
