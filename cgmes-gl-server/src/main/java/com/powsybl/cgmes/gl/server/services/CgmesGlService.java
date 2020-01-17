@@ -30,12 +30,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.File;
-import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.powsybl.cgmes.gl.server.services.CgmesGlConstants.USERHOME;
 
 /**
  * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>
@@ -43,21 +39,17 @@ import static com.powsybl.cgmes.gl.server.services.CgmesGlConstants.USERHOME;
 @Service
 public class CgmesGlService {
 
-    private FileSystem fileSystem = FileSystems.getDefault();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(CgmesGlService.class);
 
     private RestTemplate geoDataServerRest;
     private String geoDataServerBaseUri;
     private RestTemplate caseServerRest;
-    private String caseServerBaseUri;
 
     private CaseServerDataSource caseServerDataSource;
 
     @Autowired
     public CgmesGlService(@Value("${geo-data-server.base.url}") String geoDataServerBaseUri, @Value("${case-server.base.url}") String caseServerBaseUri) {
         this.geoDataServerBaseUri = Objects.requireNonNull(geoDataServerBaseUri);
-        this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
 
         RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
         this.geoDataServerRest = restTemplateBuilder.build();
@@ -65,7 +57,7 @@ public class CgmesGlService {
 
         RestTemplateBuilder restTemplateBuilder2 = new RestTemplateBuilder();
         this.caseServerRest = restTemplateBuilder2.build();
-        this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(caseServerBaseUri));
+        this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(Objects.requireNonNull(caseServerBaseUri)));
 
         caseServerDataSource = new CaseServerDataSource(caseServerBaseUri);
     }
@@ -76,7 +68,7 @@ public class CgmesGlService {
         List<SubstationPosition> substationPositions = network.getSubstationStream()
                 .map(s -> (SubstationPosition) s.getExtension(SubstationPosition.class))
                 .filter(Objects::nonNull)
-                .filter(s -> countries.isEmpty() || countries.contains(s.getExtendable().getCountry()))
+                .filter(s -> countries.isEmpty() || countries.contains(s.getExtendable().getCountry().orElse(null)))
                 .collect(Collectors.toList());
 
         List<LinePosition<Line>> linePositions = new ArrayList<>();
@@ -91,13 +83,14 @@ public class CgmesGlService {
             }
         }
 
-        List<LineGeoData> lines = linePositions.stream().map(lp -> LineGeoData.fromLinePosition(lp)).collect(Collectors.toList());
-        List<SubstationGeoData> substations = substationPositions.stream().map(sp -> SubstationGeoData.fromSubstationPosition(sp)).collect(Collectors.toList());
+        List<LineGeoData> lines = linePositions.stream().map(LineGeoData::fromLinePosition).collect(Collectors.toList());
+        List<SubstationGeoData> substations = substationPositions.stream().map(SubstationGeoData::fromSubstationPosition).collect(Collectors.toList());
         saveData(substations, lines);
+        LOGGER.info("{} lines and {} substations are sent to the geodata server", lines.size(), substations.size());
     }
 
     Network getNetwork(String caseName) {
-        caseServerDataSource.setCaseName(checkCaseName(caseName));
+        caseServerDataSource.setCaZeName(checkCaseName(caseName));
 
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
@@ -145,39 +138,6 @@ public class CgmesGlService {
                 HttpMethod.POST,
                 requestEntity,
                 Void.class);
-    }
-
-    private Path getStorageRootDir() {
-        return fileSystem.getPath(System.getProperty(USERHOME) + CgmesGlConstants.TMP_FOLDER);
-    }
-
-    private boolean isStorageCreated() {
-        Path storageRootDir = getStorageRootDir();
-        return Files.exists(storageRootDir) && Files.isDirectory(storageRootDir);
-    }
-
-    private void checkStorageInitialization() {
-        if (!isStorageCreated()) {
-            throw new CgmesException(CgmesGlConstants.STORAGE_DIR_NOT_CREATED);
-        }
-    }
-
-    void setFileSystem(FileSystem fileSystem) {
-        this.fileSystem = fileSystem;
-    }
-
-    private static void cleanStorage(File storageDir) {
-        File[] files = storageDir.listFiles();
-        if (files != null) { //some JVMs return null for empty dirs
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    cleanStorage(f);
-                } else {
-                    f.delete();
-                }
-            }
-        }
-        storageDir.delete();
     }
 }
 

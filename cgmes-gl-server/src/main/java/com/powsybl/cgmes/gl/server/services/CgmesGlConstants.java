@@ -16,10 +16,4 @@ public final class CgmesGlConstants {
 
     static final String GEO_DATA_API_VERSION = "v1";
     static final String CASE_API_VERSION = "v1";
-
-    static final String USERHOME = "user.home";
-    static final String TMP_FOLDER = "/tmp-zipped-cases/";
-
-    static final String STORAGE_DIR_NOT_CREATED = "The storage is not initialized";
-    static final String FILE_DOESNT_EXIST = "The file requested doesn't exist";
 }

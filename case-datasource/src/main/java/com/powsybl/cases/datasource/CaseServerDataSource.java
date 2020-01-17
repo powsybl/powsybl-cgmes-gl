@@ -1,6 +1,5 @@
 package com.powsybl.cases.datasource;
 
-import com.powsybl.commons.PowsyblException;
 import com.powsybl.commons.datasource.ReadOnlyDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -24,24 +23,17 @@ import java.util.Set;
 
 public class CaseServerDataSource implements ReadOnlyDataSource {
 
-    public static final  String CASE_API_VERSION = "v1";
+    private static final String CASE_API_VERSION = "v1";
+    private static final String CASENAME = "caZeName";
 
     private RestTemplate caseServerRest;
     private String caseServerBaseUri;
 
-    public String getCaseName() {
-        return caseName;
-    }
+    private String caZeName;
 
-    public void setCaseName(String caseName) {
-        this.caseName = caseName;
-    }
-
-    private String caseName;
-
-    public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri, String caseName) {
+    public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri, String caZeName) {
         this(caseServerBaseUri);
-        this.caseName = Objects.requireNonNull(caseName);
+        this.caZeName = Objects.requireNonNull(caZeName);
     }
 
     public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri) {
@@ -57,9 +49,9 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/baseName")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/baseName")
                 .uriVariables(urlParams);
         try {
             ResponseEntity<String> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -68,7 +60,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     String.class);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when requesting baseName", e);
         }
     }
 
@@ -78,11 +70,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/exists")
                 .uriVariables(urlParams)
-                .queryParam("caseName", caseName)
+                .queryParam(CASENAME, caZeName)
                 .queryParam("suffix", suffix)
                 .queryParam("ext", ext);
         try {
@@ -92,7 +84,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     Boolean.class);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when checking file existence", e);
         }
     }
 
@@ -102,11 +94,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/exists")
                 .uriVariables(urlParams)
-                .queryParam("caseName", caseName)
+                .queryParam(CASENAME, caZeName)
                 .queryParam("fileName", fileName);
         try {
             ResponseEntity<Boolean> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -115,7 +107,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     Boolean.class);
             return responseEntity.getBody();
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when checking file exitence", e);
         }
     }
 
@@ -125,11 +117,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource")
                 .uriVariables(urlParams)
-                .queryParam("caseName", caseName)
+                .queryParam(CASENAME, caZeName)
                 .queryParam("suffix", suffix)
                 .queryParam("ext", ext);
         try {
@@ -139,7 +131,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     byte[].class);
             return new ByteArrayInputStream(responseEntity.getBody());
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when requesting the file inputStream", e);
         }
     }
 
@@ -149,11 +141,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource")
                 .uriVariables(urlParams)
-                .queryParam("caseName", caseName)
+                .queryParam(CASENAME, caZeName)
                 .queryParam("fileName", fileName);
         try {
             ResponseEntity<byte[]> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -162,7 +154,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     byte[].class);
             return new ByteArrayInputStream(responseEntity.getBody());
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when requesting the file inputStream", e);
         }
     }
 
@@ -172,11 +164,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
+        urlParams.put(CASENAME, caZeName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/list")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/list")
                 .uriVariables(urlParams)
-                .queryParam("caseName", caseName)
+                .queryParam(CASENAME, caZeName)
                 .queryParam("regex", regex);
         try {
             ResponseEntity<Set<String>> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -185,7 +177,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
                     new ParameterizedTypeReference<Set<String>>() { });
             return responseEntity.getBody();
         } catch (HttpStatusCodeException e) {
-            throw new PowsyblException(" Exception", e);
+            throw new CaseServerDataSourceException("Exception when requesting the files listNames", e);
         }
+    }
+
+    public void setCaZeName(String caZeName) {
+        this.caZeName = caZeName;
     }
 }

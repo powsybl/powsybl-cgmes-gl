@@ -10,6 +10,7 @@ import com.powsybl.cgmes.model.CgmesNamespace;
 import com.powsybl.cgmes.model.CgmesSubset;
 import com.powsybl.commons.datasource.DataSource;
 import com.powsybl.iidm.network.Network;
+import com.powsybl.triplestore.api.PrefixNamespace;
 import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.triplestore.api.TripleStore;
 import com.powsybl.triplestore.api.TripleStoreFactory;
@@ -68,7 +69,7 @@ public class CgmesGLExporter {
     }
 
     private boolean namespaceAlreadyExist(String prefix) {
-        return tripleStore.getNamespaces().stream().map(prefixNamespace -> prefixNamespace.getPrefix()).anyMatch(prefix::equals);
+        return tripleStore.getNamespaces().stream().map(PrefixNamespace::getPrefix).anyMatch(prefix::equals);
     }
 
     private void addModel(ExportContext context) {

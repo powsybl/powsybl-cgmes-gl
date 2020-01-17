@@ -29,7 +29,7 @@ public class SubstationGeoData {
     private Coordinate coordinate;
 
     public static SubstationGeoData fromSubstationPosition(SubstationPosition substationPosition) {
-        Substation s = (Substation) substationPosition.getExtendable();
+        Substation s = substationPosition.getExtendable();
         return new SubstationGeoData(s.getId(), s.getCountry().orElse(null), substationPosition.getCoordinate());
     }
 }
