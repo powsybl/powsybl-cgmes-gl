@@ -28,14 +28,27 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
 
     private RestTemplate caseServerRest;
     private String caseServerBaseUri;
+
+    public String getCaseName() {
+        return caseName;
+    }
+
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
+    }
+
     private String caseName;
 
     public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri, String caseName) {
+        this(caseServerBaseUri);
+        this.caseName = Objects.requireNonNull(caseName);
+    }
+
+    public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri) {
         this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
         RestTemplateBuilder restTemplateBuilder2 = new RestTemplateBuilder();
         this.caseServerRest = restTemplateBuilder2.build();
         this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(caseServerBaseUri));
-        this.caseName = Objects.requireNonNull(caseName);
     }
 
     @Override

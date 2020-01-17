@@ -6,13 +6,11 @@
  */
 package com.powsybl.cgmes.gl.server.services;
 
+import com.powsybl.cases.datasource.CaseServerDataSource;
 import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.CgmesException;
-import com.powsybl.cgmes.gl.server.helper.ZipHelper;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
-import com.powsybl.commons.datasource.DataSource;
-import com.powsybl.commons.datasource.ZipFileDataSource;
 import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Country;
@@ -28,7 +26,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -55,6 +52,8 @@ public class CgmesGlService {
     private RestTemplate caseServerRest;
     private String caseServerBaseUri;
 
+    private CaseServerDataSource caseServerDataSource;
+
     @Autowired
     public CgmesGlService(@Value("${geo-data-server.base.url}") String geoDataServerBaseUri, @Value("${case-server.base.url}") String caseServerBaseUri) {
         this.geoDataServerBaseUri = Objects.requireNonNull(geoDataServerBaseUri);
@@ -67,6 +66,8 @@ public class CgmesGlService {
         RestTemplateBuilder restTemplateBuilder2 = new RestTemplateBuilder();
         this.caseServerRest = restTemplateBuilder2.build();
         this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(caseServerBaseUri));
+
+        caseServerDataSource = new CaseServerDataSource(caseServerBaseUri);
     }
 
     public void toGeodDataServer(String caseName, Set<Country> countries) {
@@ -96,47 +97,21 @@ public class CgmesGlService {
     }
 
     Network getNetwork(String caseName) {
-        checkCaseName(caseName);
-        // get data from case server, then construct the network
-        byte[] downloadedBytes = getCaseAsByte(caseName);
-        ZipHelper.zipFileFromByteArray(downloadedBytes, getStorageRootDir().toString(), caseName);
-        DataSource ds = new ZipFileDataSource(Paths.get(getStorageRootDir().toString() + "/"), FilenameUtils.getBaseName(caseName));
+        caseServerDataSource.setCaseName(checkCaseName(caseName));
+
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
-        Network network = importer.importData(ds, new NetworkFactoryImpl(), properties);
-        // delete the zip file
-        cleanStorage(new File(getStorageRootDir().toString()));
-        return network;
+        return importer.importData(caseServerDataSource, new NetworkFactoryImpl(), properties);
     }
 
-    private void checkCaseName(String caseName) {
+    private String checkCaseName(String caseName) {
         //caseName should be a zipped file
         String extension = FilenameUtils.getExtension(caseName);
         if (!extension.equals("zip")) {
             throw new CgmesException("File extension not supported");
         }
-    }
-
-    private byte[] getCaseAsByte(String caseName) {
-        HttpHeaders requestHeaders = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity(requestHeaders);
-
-        Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put("caseName", caseName);
-
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CgmesGlConstants.CASE_API_VERSION + "/cases/{caseName}")
-                .uriVariables(urlParams);
-
-        try {
-            ResponseEntity<byte[]> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
-                    HttpMethod.GET,
-                    requestEntity,
-                    byte[].class);
-            return responseEntity.getBody();
-        } catch (HttpStatusCodeException e) {
-            throw new CgmesException("getCaseAsByte HttpStatusCodeException", e);
-        }
+        return caseName;
     }
 
     private void saveData(List<SubstationGeoData> substationsGeoData, List<LineGeoData> linesGeoData) {
