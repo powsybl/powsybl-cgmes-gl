@@ -90,7 +90,7 @@ public class CgmesGlService {
     }
 
     Network getNetwork(String caseName) {
-        caseServerDataSource.setCaZeName(checkCaseName(caseName));
+        caseServerDataSource.setCaseName(checkCaseName(caseName));
 
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();

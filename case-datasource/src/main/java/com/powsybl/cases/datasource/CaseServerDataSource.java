@@ -24,16 +24,16 @@ import java.util.Set;
 public class CaseServerDataSource implements ReadOnlyDataSource {
 
     private static final String CASE_API_VERSION = "v1";
-    private static final String CASENAME = "caZeName";
+    private static final String CASENAME = "caseName";
 
     private RestTemplate caseServerRest;
     private String caseServerBaseUri;
 
-    private String caZeName;
+    private String caseName;
 
-    public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri, String caZeName) {
+    public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri, String caseName) {
         this(caseServerBaseUri);
-        this.caZeName = Objects.requireNonNull(caZeName);
+        this.caseName = Objects.requireNonNull(caseName);
     }
 
     public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri) {
@@ -49,9 +49,9 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/baseName")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/baseName")
                 .uriVariables(urlParams);
         try {
             ResponseEntity<String> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -70,11 +70,10 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/exists")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caZeName)
                 .queryParam("suffix", suffix)
                 .queryParam("ext", ext);
         try {
@@ -94,11 +93,10 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/exists")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caZeName)
                 .queryParam("fileName", fileName);
         try {
             ResponseEntity<Boolean> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -117,11 +115,10 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caZeName)
                 .queryParam("suffix", suffix)
                 .queryParam("ext", ext);
         try {
@@ -141,11 +138,10 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caZeName)
                 .queryParam("fileName", fileName);
         try {
             ResponseEntity<byte[]> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -164,11 +160,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caZeName);
+        urlParams.put(CASENAME, caseName);
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caZeName}/datasource/list")
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/list")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caZeName)
+                .queryParam(CASENAME, caseName)
                 .queryParam("regex", regex);
         try {
             ResponseEntity<Set<String>> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
@@ -181,7 +177,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         }
     }
 
-    public void setCaZeName(String caZeName) {
-        this.caZeName = caZeName;
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
     }
 }
