@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-config-classic</artifactId>
-            <version>${powsyblcore.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -122,6 +122,12 @@
         </dependency>
 
         <!-- test scope -->
+        <dependency>
+            <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-config-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>powsybl-cgmes-model</artifactId>
