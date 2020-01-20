@@ -12,6 +12,7 @@ import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.triplestore.api.TripleStore;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -23,6 +24,14 @@ public abstract class AbstractPositionExporter {
     protected TripleStore tripleStore;
     protected ExportContext context;
 
+    private static final String IDENTIFIED_OBJECT_NAME = "IdentifiedObject.name";
+    private static final  String COORDINATE_SYSTEM = "CoordinateSystem";
+    private static final  String POWER_SYSTEM_RESOURCES = "PowerSystemResources";
+    private static final  String LOCATION = "Location";
+    private static final  String X_POSITION = "xPosition";
+    private static final  String Y_POSITION = "yPosition";
+    private static final   String SEQUENCE_NUMBER = "sequenceNumber";
+
     public AbstractPositionExporter(TripleStore tripleStore, ExportContext context) {
         this.tripleStore = Objects.requireNonNull(tripleStore);
         this.context = Objects.requireNonNull(context);
@@ -30,27 +39,27 @@ public abstract class AbstractPositionExporter {
 
     protected String addLocation(String id, String name) {
 
-        PropertyBag locationProperties = new PropertyBag(Arrays.asList("IdentifiedObject.name", "CoordinateSystem", "PowerSystemResources"));
-        locationProperties.setResourceNames(Arrays.asList("CoordinateSystem", "PowerSystemResources"));
-        locationProperties.setClassPropertyNames(Arrays.asList("IdentifiedObject.name"));
-        locationProperties.put("IdentifiedObject.name", name);
-        locationProperties.put("PowerSystemResources", id);
-        locationProperties.put("CoordinateSystem", context.getCoordinateSystemId());
+        PropertyBag locationProperties = new PropertyBag(Arrays.asList(IDENTIFIED_OBJECT_NAME, COORDINATE_SYSTEM, POWER_SYSTEM_RESOURCES));
+        locationProperties.setResourceNames(Arrays.asList(COORDINATE_SYSTEM, POWER_SYSTEM_RESOURCES));
+        locationProperties.setClassPropertyNames(Collections.singletonList(IDENTIFIED_OBJECT_NAME));
+        locationProperties.put(IDENTIFIED_OBJECT_NAME, name);
+        locationProperties.put(POWER_SYSTEM_RESOURCES, id);
+        locationProperties.put(COORDINATE_SYSTEM, context.getCoordinateSystemId());
 
-        return tripleStore.add(context.getGlContext(), CgmesNamespace.CIM_16_NAMESPACE, "Location", locationProperties);
+        return tripleStore.add(context.getGlContext(), CgmesNamespace.CIM_16_NAMESPACE, LOCATION, locationProperties);
     }
 
     protected void addLocationPoint(String locationId, Coordinate coordinate, int seq) {
         PropertyBag locationPointProperties = (seq == 0)
-                ? new PropertyBag(Arrays.asList("xPosition", "yPosition", "Location"))
-                : new PropertyBag(Arrays.asList("sequenceNumber", "xPosition", "yPosition", "Location"));
-        locationPointProperties.setResourceNames(Arrays.asList("Location"));
+                ? new PropertyBag(Arrays.asList(X_POSITION, Y_POSITION, LOCATION))
+                : new PropertyBag(Arrays.asList(SEQUENCE_NUMBER, X_POSITION, Y_POSITION, LOCATION));
+        locationPointProperties.setResourceNames(Collections.singletonList(LOCATION));
         if (seq > 0) {
-            locationPointProperties.put("sequenceNumber", Integer.toString(seq));
+            locationPointProperties.put(SEQUENCE_NUMBER, Integer.toString(seq));
         }
-        locationPointProperties.put("xPosition", Double.toString(coordinate.getLon()));
-        locationPointProperties.put("yPosition", Double.toString(coordinate.getLat()));
-        locationPointProperties.put("Location", locationId);
+        locationPointProperties.put(X_POSITION, Double.toString(coordinate.getLon()));
+        locationPointProperties.put(Y_POSITION, Double.toString(coordinate.getLat()));
+        locationPointProperties.put(LOCATION, locationId);
         tripleStore.add(context.getGlContext(), CgmesNamespace.CIM_16_NAMESPACE, "PositionPoint", locationPointProperties);
     }
 
