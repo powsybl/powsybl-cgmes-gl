@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2020, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package com.powsybl.cases.datasource;
 
 import com.powsybl.commons.datasource.ReadOnlyDataSource;
@@ -21,10 +27,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>
+ */
 public class CaseServerDataSource implements ReadOnlyDataSource {
 
     private static final String CASE_API_VERSION = "v1";
-    private static final String CASENAME = "caseName";
+    private static final String CASE_NAME = "caseName";
 
     private RestTemplate caseServerRest;
     private String caseServerBaseUri;
@@ -38,8 +47,8 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
 
     public CaseServerDataSource(@Value("${case-server.base.url}") String caseServerBaseUri) {
         this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
-        RestTemplateBuilder restTemplateBuilder2 = new RestTemplateBuilder();
-        this.caseServerRest = restTemplateBuilder2.build();
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
+        this.caseServerRest = restTemplateBuilder.build();
         this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(caseServerBaseUri));
     }
 
@@ -49,7 +58,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/baseName")
                 .uriVariables(urlParams);
@@ -70,7 +79,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
                 .uriVariables(urlParams)
@@ -93,7 +102,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/exists")
                 .uriVariables(urlParams)
@@ -115,7 +124,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
                 .uriVariables(urlParams)
@@ -138,7 +147,7 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource")
                 .uriVariables(urlParams)
@@ -160,11 +169,11 @@ public class CaseServerDataSource implements ReadOnlyDataSource {
         HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
         Map<String, Object> urlParams = new HashMap<>();
-        urlParams.put(CASENAME, caseName);
+        urlParams.put(CASE_NAME, caseName);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(caseServerBaseUri + "/" + CASE_API_VERSION + "/cases/{caseName}/datasource/list")
                 .uriVariables(urlParams)
-                .queryParam(CASENAME, caseName)
+                .queryParam(CASE_NAME, caseName)
                 .queryParam("regex", regex);
         try {
             ResponseEntity<Set<String>> responseEntity = caseServerRest.exchange(uriBuilder.toUriString(),
