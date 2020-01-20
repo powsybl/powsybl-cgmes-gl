@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
@@ -33,6 +34,14 @@ public class CgmesGLExporter {
 
     private Network network;
     private TripleStore tripleStore;
+
+    private static final String MODEL_SCENARIO_TIME = "Model.scenarioTime";
+    private static final String MODEL_CREATED = "Model.created";
+    private static final String MODEL_DESCRIPTION = "Model.description";
+    private static final String MODEL_VERSION = "Model.version";
+    private static final String MODEL_PROFILE = "Model.profile";
+    private static final String MODEL_DEPENDENT_ON = "Model.DependentOn";
+    private static final String IDENTIFIED_OBJECT_NAME = "IdentifiedObject.name";
 
     public CgmesGLExporter(Network network, TripleStore tripleStore) {
         this.network = Objects.requireNonNull(network);
@@ -57,38 +66,38 @@ public class CgmesGLExporter {
     }
 
     private void addNamespaces(ExportContext context) {
-        if (!namespaceAlreadyExist("data")) {
+        if (isMissedNamespace("data")) {
             tripleStore.addNamespace("data", "http://" + context.getBasename().toLowerCase() + "/#");
         }
-        if (!namespaceAlreadyExist("cim")) {
+        if (isMissedNamespace("cim")) {
             tripleStore.addNamespace("cim", CgmesNamespace.CIM_16_NAMESPACE);
         }
-        if (!namespaceAlreadyExist("md")) {
+        if (isMissedNamespace("md")) {
             tripleStore.addNamespace("md", MD_NAMESPACE);
         }
     }
 
-    private boolean namespaceAlreadyExist(String prefix) {
-        return tripleStore.getNamespaces().stream().map(PrefixNamespace::getPrefix).anyMatch(prefix::equals);
+    private boolean isMissedNamespace(String prefix) {
+        return tripleStore.getNamespaces().stream().map(PrefixNamespace::getPrefix).noneMatch(prefix::equals);
     }
 
     private void addModel(ExportContext context) {
-        PropertyBag modelProperties = new PropertyBag(Arrays.asList("Model.scenarioTime", "Model.created", "Model.description", "Model.version", "Model.profile", "Model.DependentOn"));
-        modelProperties.setResourceNames(Arrays.asList("Model.DependentOn"));
-        modelProperties.setClassPropertyNames(Arrays.asList("Model.scenarioTime", "Model.created", "Model.description", "Model.version", "Model.profile", "Model.DependentOn"));
-        modelProperties.put("Model.scenarioTime", network.getCaseDate().toString());
-        modelProperties.put("Model.created", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new Date()));
-        modelProperties.put("Model.description", network.getName());
-        modelProperties.put("Model.version", "4");
-        modelProperties.put("Model.profile", "http://entsoe.eu/CIM/GeographicalLocation/2/1");
-        modelProperties.put("Model.DependentOn", network.getId());
+        PropertyBag modelProperties = new PropertyBag(Arrays.asList(MODEL_SCENARIO_TIME, MODEL_CREATED, MODEL_DESCRIPTION, MODEL_VERSION, MODEL_PROFILE, MODEL_DEPENDENT_ON));
+        modelProperties.setResourceNames(Collections.singletonList(MODEL_DEPENDENT_ON));
+        modelProperties.setClassPropertyNames(Arrays.asList(MODEL_SCENARIO_TIME, MODEL_CREATED, MODEL_DESCRIPTION, MODEL_VERSION, MODEL_PROFILE, MODEL_DEPENDENT_ON));
+        modelProperties.put(MODEL_SCENARIO_TIME, network.getCaseDate().toString());
+        modelProperties.put(MODEL_CREATED, new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(new Date()));
+        modelProperties.put(MODEL_DESCRIPTION, network.getName());
+        modelProperties.put(MODEL_VERSION, "4");
+        modelProperties.put(MODEL_PROFILE, "http://entsoe.eu/CIM/GeographicalLocation/2/1");
+        modelProperties.put(MODEL_DEPENDENT_ON, network.getId());
         tripleStore.add(context.getGlContext(), MD_NAMESPACE, "FullModel", modelProperties);
     }
 
     private void addCoordinateSystem(ExportContext context) {
-        PropertyBag coordinateSystemProperties = new PropertyBag(Arrays.asList("IdentifiedObject.name", "crsUrn"));
-        coordinateSystemProperties.setClassPropertyNames(Arrays.asList("IdentifiedObject.name"));
-        coordinateSystemProperties.put("IdentifiedObject.name", CgmesGLUtils.COORDINATE_SYSTEM_NAME);
+        PropertyBag coordinateSystemProperties = new PropertyBag(Arrays.asList(IDENTIFIED_OBJECT_NAME, "crsUrn"));
+        coordinateSystemProperties.setClassPropertyNames(Collections.singletonList(IDENTIFIED_OBJECT_NAME));
+        coordinateSystemProperties.put(IDENTIFIED_OBJECT_NAME, CgmesGLUtils.COORDINATE_SYSTEM_NAME);
         coordinateSystemProperties.put("crsUrn", CgmesGLUtils.COORDINATE_SYSTEM_URN);
         context.setCoordinateSystemId(tripleStore.add(context.getGlContext(), CgmesNamespace.CIM_16_NAMESPACE, "CoordinateSystem", coordinateSystemProperties));
     }

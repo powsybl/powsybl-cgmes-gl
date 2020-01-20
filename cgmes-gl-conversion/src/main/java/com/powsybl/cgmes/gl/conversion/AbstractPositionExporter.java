@@ -25,12 +25,12 @@ public abstract class AbstractPositionExporter {
     protected ExportContext context;
 
     private static final String IDENTIFIED_OBJECT_NAME = "IdentifiedObject.name";
-    private static final  String COORDINATE_SYSTEM = "CoordinateSystem";
-    private static final  String POWER_SYSTEM_RESOURCES = "PowerSystemResources";
-    private static final  String LOCATION = "Location";
-    private static final  String X_POSITION = "xPosition";
-    private static final  String Y_POSITION = "yPosition";
-    private static final   String SEQUENCE_NUMBER = "sequenceNumber";
+    private static final String COORDINATE_SYSTEM = "CoordinateSystem";
+    private static final String POWER_SYSTEM_RESOURCES = "PowerSystemResources";
+    private static final String LOCATION = "Location";
+    private static final String X_POSITION = "xPosition";
+    private static final String Y_POSITION = "yPosition";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     public AbstractPositionExporter(TripleStore tripleStore, ExportContext context) {
         this.tripleStore = Objects.requireNonNull(tripleStore);
