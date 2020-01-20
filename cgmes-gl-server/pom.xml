@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-cgmes-gl-conversion</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>case-datasource</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- test scope -->

@@ -1,3 +1,8 @@
+/** Copyright (c) 2020, RTE (http://www.rte-france.com)
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 package com.powsybl.cases.datasource;
 
 import org.junit.Before;
@@ -10,7 +15,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,6 +29,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
+/**
+ * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class CaseServerDataSourceTest {
 
@@ -36,8 +43,6 @@ public class CaseServerDataSourceTest {
 
     @Before
     public void setUp() {
-
-        ResponseEntity<String> myEntity = new ResponseEntity<>(HttpStatus.ACCEPTED);
 
         given(caseServerRest.exchange(eq("http://localhost:8080/v1/cases/myCaseName.zip/datasource/baseName"),
                 eq(HttpMethod.GET),
