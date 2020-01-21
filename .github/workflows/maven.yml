@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:
+  push:
+  repository_dispatch:
+    types: case_updated
 
 jobs:
   build:
