@@ -5,6 +5,7 @@
  */
 package com.powsybl.cases.datasource;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,7 +89,7 @@ public class CaseServerDataSourceTest {
         assertTrue(caseServerDataSource.exists("A", "xml"));
 
         byte[] buffer = new byte[16];
-        caseServerDataSource.newInputStream("A.xml").read(buffer);
+        IOUtils.readFully(caseServerDataSource.newInputStream("A.xml"), buffer);
         assertEquals("Data in the file", new String(buffer));
     }
 }
