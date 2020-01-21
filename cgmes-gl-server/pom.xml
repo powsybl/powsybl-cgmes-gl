@@ -117,10 +117,8 @@
 
         <dependency>
             <groupId>com.powsybl</groupId>
-            <artifactId>case-datasource</artifactId>
-            <version>${project.version}</version>
+            <artifactId>powsybl-case-datasource-client</artifactId>
         </dependency>
-
         <!-- test scope -->
         <dependency>
             <groupId>com.powsybl</groupId>

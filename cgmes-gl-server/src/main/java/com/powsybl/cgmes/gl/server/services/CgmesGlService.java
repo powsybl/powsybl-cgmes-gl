@@ -6,7 +6,7 @@
  */
 package com.powsybl.cgmes.gl.server.services;
 
-import com.powsybl.cases.datasource.CaseServerDataSource;
+import com.powsybl.cases.datasource.CaseDataSourceClient;
 import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.CgmesException;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
@@ -85,7 +85,7 @@ public class CgmesGlService {
     }
 
     Network getNetwork(String caseName) {
-        CaseServerDataSource caseServerDataSource = createCaseServerDataSource();
+        CaseDataSourceClient caseServerDataSource = createCaseServerDataSource();
         caseServerDataSource.setCaseName(checkCaseName(caseName));
 
         CgmesImport importer = new CgmesImport();
@@ -94,8 +94,8 @@ public class CgmesGlService {
         return importer.importData(caseServerDataSource, new NetworkFactoryImpl(), properties);
     }
 
-    CaseServerDataSource createCaseServerDataSource() {
-        return new CaseServerDataSource(caseServerBaseUri);
+    CaseDataSourceClient createCaseServerDataSource() {
+        return new CaseDataSourceClient(caseServerBaseUri);
     }
 
     private String checkCaseName(String caseName) {

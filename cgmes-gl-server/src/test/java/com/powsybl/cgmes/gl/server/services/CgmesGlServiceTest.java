@@ -6,7 +6,7 @@
  */
 package com.powsybl.cgmes.gl.server.services;
 
-import com.powsybl.cases.datasource.CaseServerDataSource;
+import com.powsybl.cases.datasource.CaseDataSourceClient;
 import com.powsybl.cgmes.conformity.test.CgmesConformity1Catalog;
 import com.powsybl.cgmes.gl.server.CgmesNetworkFromZipTest;
 import com.powsybl.cgmes.model.test.TestGridModel;
@@ -39,7 +39,7 @@ public class CgmesGlServiceTest {
     private RestTemplate geoDataServerRest;
 
     @Mock
-    private CaseServerDataSource caseServerDataSource;
+    private CaseDataSourceClient caseServerDataSource;
 
     @InjectMocks
     private CgmesGlService cgmesGlService =  Mockito.spy(new CgmesGlService("https://localhost:8087", "https://localhost:8085"));

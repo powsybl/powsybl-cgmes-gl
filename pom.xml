@@ -20,7 +20,6 @@
         <module>cgmes-gl-conversion</module>
         <module>cgmes-gl-server</module>
         <module>cgmes-gl-distribution</module>
-        <module>case-datasource</module>
     </modules>
 
     <licenses>
@@ -72,6 +71,7 @@
         <jimfs.version>1.1</jimfs.version>
 
         <powsyblcore.version>3.1.0</powsyblcore.version>
+        <powsyblcase.version>1.0.0-SNAPSHOT</powsyblcase.version>
         <geodata.version>1.0.0-SNAPSHOT</geodata.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
@@ -167,15 +167,17 @@
             <!-- Compilation dependencies -->
             <dependency>
                 <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-case-datasource-client</artifactId>
+                <version>${powsyblcase.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.powsybl</groupId>
                 <artifactId>powsybl-config-classic</artifactId>
                 <version>${powsyblcore.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.powsybl</groupId>
-                <artifactId>case-datasource</artifactId>
-            </dependency>
             <dependency>
                 <groupId>io.dropwizard.metrics</groupId>
                 <artifactId>metrics-core</artifactId>
