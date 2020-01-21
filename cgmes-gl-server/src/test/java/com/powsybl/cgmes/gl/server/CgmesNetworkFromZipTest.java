@@ -1,25 +1,23 @@
-package com.powsybl.cgmes.gl.server;
-/* Copyright (c) 2020, RTE (http://www.rte-france.com)
+/** Copyright (c) 2020, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+package com.powsybl.cgmes.gl.server;
 
+import com.powsybl.cgmes.conformity.test.CgmesConformity1Catalog;
 import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
-import com.powsybl.commons.datasource.DataSource;
+import com.powsybl.cgmes.model.test.TestGridModel;
 import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.geodata.extensions.SubstationPosition;
-import com.powsybl.iidm.import_.Importers;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
 import org.junit.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,16 +31,12 @@ public class CgmesNetworkFromZipTest {
 
     @Test
     public void test() {
-
-        Path path = Paths.get("src/test/ressources/CGMES_v2_4_15_MicroGridTestConfiguration_BC_BE_v2.zip");
-
-        DataSource ds = Importers.createDataSource(path);
-        assertNotNull(ds);
+        TestGridModel gridModel =  CgmesConformity1Catalog.microGridBaseCaseBE();
 
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
-        Network network = importer.importData(ds, new NetworkFactoryImpl(), properties);
+        Network network = importer.importData(gridModel.dataSource(), new NetworkFactoryImpl(), properties);
         assertNotNull(network);
 
         checkExtensions(network, new HashSet<>());
@@ -67,8 +61,8 @@ public class CgmesNetworkFromZipTest {
             }
         }
 
-        List<LineGeoData> lines = linePositions.stream().map(lp -> LineGeoData.fromLinePosition(lp)).collect(Collectors.toList());
-        List<SubstationGeoData> substations = substationPositions.stream().map(sp -> SubstationGeoData.fromSubstationPosition(sp)).collect(Collectors.toList());
+        List<LineGeoData> lines = linePositions.stream().map(LineGeoData::fromLinePosition).collect(Collectors.toList());
+        List<SubstationGeoData> substations = substationPositions.stream().map(SubstationGeoData::fromSubstationPosition).collect(Collectors.toList());
 
         assertEquals(2, lines.size());
         assertEquals(2, substations.size());

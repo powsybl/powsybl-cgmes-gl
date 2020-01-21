@@ -61,9 +61,9 @@ public class CgmesGeoDataTest {
         assertEquals(2, linePositions.size());
 
         List<LineGeoData> lines = linePositions.stream()
-                .map(lp -> LineGeoData.fromLinePosition(lp))
+                .map(LineGeoData::fromLinePosition)
                 .collect(Collectors.toList());
-        List<SubstationGeoData> substations = substationPositions.stream().map(sp -> SubstationGeoData.fromSubstationPosition(sp)).collect(Collectors.toList());
+        List<SubstationGeoData> substations = substationPositions.stream().map(SubstationGeoData::fromSubstationPosition).collect(Collectors.toList());
 
         assertEquals(2, substations.size());
         assertEquals(2, lines.size());

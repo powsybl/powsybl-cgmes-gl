@@ -43,9 +43,8 @@ public class CgmesGlService {
 
     private RestTemplate geoDataServerRest;
     private String geoDataServerBaseUri;
-    private RestTemplate caseServerRest;
 
-    private CaseServerDataSource caseServerDataSource;
+    private String caseServerBaseUri;
 
     @Autowired
     public CgmesGlService(@Value("${geo-data-server.base.url}") String geoDataServerBaseUri, @Value("${case-server.base.url}") String caseServerBaseUri) {
@@ -55,11 +54,7 @@ public class CgmesGlService {
         this.geoDataServerRest = restTemplateBuilder.build();
         this.geoDataServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(geoDataServerBaseUri));
 
-        RestTemplateBuilder restTemplateBuilder2 = new RestTemplateBuilder();
-        this.caseServerRest = restTemplateBuilder2.build();
-        this.caseServerRest.setUriTemplateHandler(new DefaultUriBuilderFactory(Objects.requireNonNull(caseServerBaseUri)));
-
-        caseServerDataSource = new CaseServerDataSource(caseServerBaseUri);
+        this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
     }
 
     public void toGeodDataServer(String caseName, Set<Country> countries) {
@@ -90,12 +85,17 @@ public class CgmesGlService {
     }
 
     Network getNetwork(String caseName) {
+        CaseServerDataSource caseServerDataSource = createCaseServerDataSource();
         caseServerDataSource.setCaseName(checkCaseName(caseName));
 
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
         return importer.importData(caseServerDataSource, new NetworkFactoryImpl(), properties);
+    }
+
+    CaseServerDataSource createCaseServerDataSource() {
+        return new CaseServerDataSource(caseServerBaseUri);
     }
 
     private String checkCaseName(String caseName) {
