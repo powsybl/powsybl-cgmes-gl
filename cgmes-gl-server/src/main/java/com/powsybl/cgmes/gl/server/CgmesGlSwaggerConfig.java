@@ -38,7 +38,7 @@ public class CgmesGlSwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("CGMES GL API")
-                .description("This is the documentation of PowSyBl Cgmes gl API")
+                .description("This is the documentation of PowSyBl CGMES GL API")
                 .version(CgmesGlController.API_VERSION)
                 .build();
     }
