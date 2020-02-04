@@ -18,10 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertNotNull;
@@ -47,14 +45,14 @@ public class CgmesGlServiceTest {
     private static final String CASENAME = "CGMES_v2_4_15_MicroGridTestConfiguration_BC_BE_v2.zip";
 
     @Before
-    public void mockCaseServer() throws IOException {
+    public void mockCaseServer() {
         TestGridModel gridModel =  CgmesConformity1Catalog.microGridBaseCaseBE();
 
         when(caseServerDataSource.newInputStream(anyString())).then(delegatesTo(gridModel.dataSource()));
         when(caseServerDataSource.getBaseName()).then(delegatesTo(gridModel.dataSource()));
         when(caseServerDataSource.listNames(anyString())).then(delegatesTo(gridModel.dataSource()));
 
-        doReturn(caseServerDataSource).when(cgmesGlService).createCaseServerDataSource();
+        doReturn(caseServerDataSource).when(cgmesGlService).createCaseServerDataSource(CASENAME);
     }
 
     @Test

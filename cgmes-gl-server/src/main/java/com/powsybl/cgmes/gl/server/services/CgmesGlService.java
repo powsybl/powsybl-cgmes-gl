@@ -86,8 +86,7 @@ public class CgmesGlService {
     }
 
     Network getNetwork(String caseName) {
-        CaseDataSourceClient caseServerDataSource = createCaseServerDataSource();
-        caseServerDataSource.setCaseName(checkCaseName(caseName));
+        CaseDataSourceClient caseServerDataSource = createCaseServerDataSource(checkCaseName(caseName));
 
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
@@ -95,8 +94,8 @@ public class CgmesGlService {
         return importer.importData(caseServerDataSource, properties);
     }
 
-    CaseDataSourceClient createCaseServerDataSource() {
-        return new CaseDataSourceClient(caseServerBaseUri);
+    CaseDataSourceClient createCaseServerDataSource(String caseName) {
+        return new CaseDataSourceClient(caseServerBaseUri, caseName);
     }
 
     private String checkCaseName(String caseName) {
