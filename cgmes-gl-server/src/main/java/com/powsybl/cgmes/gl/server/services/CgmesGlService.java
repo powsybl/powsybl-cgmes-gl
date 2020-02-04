@@ -58,7 +58,7 @@ public class CgmesGlService {
         this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
     }
 
-    public void toGeodDataServer(String caseName, Set<Country> countries) {
+    public void toGeoDataServer(String caseName, Set<Country> countries) {
         Network network = getNetwork(caseName);
 
         List<SubstationPosition> substationPositions = network.getSubstationStream()

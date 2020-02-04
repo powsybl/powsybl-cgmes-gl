@@ -45,7 +45,7 @@ public class CgmesGlController {
     public void togeodata(@PathVariable String caseName,
                           @RequestParam(required = false) List<String> countries) {
         Set<Country> countrySet = toCountrySet(countries);
-        cgmesGlService.toGeodDataServer(caseName, countrySet);
+        cgmesGlService.toGeoDataServer(caseName, countrySet);
     }
 }
 
