@@ -58,7 +58,7 @@ public class CgmesGlServiceTest {
     }
 
     @Test
-    public void test() throws Exception {
+    public void test() {
         Network network = cgmesGlService.getNetwork(CASENAME);
         assertNotNull(network);
 
