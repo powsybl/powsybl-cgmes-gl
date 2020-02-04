@@ -17,8 +17,8 @@
 
     <packaging>pom</packaging>
     <artifactId>cgmes-gl-distribution</artifactId>
-    <name>CGMES gl distribution</name>
-    <description>CGMES gl distribution module</description>
+    <name>CGMES GL distribution</name>
+    <description>CGMES GL distribution module</description>
 
     <dependencies>
         <dependency>

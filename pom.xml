@@ -15,6 +15,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
+    <name>CGMES GL</name>
 
     <modules>
         <module>cgmes-gl-conversion</module>
@@ -61,7 +62,6 @@
         <guava.version>27.0.1-jre</guava.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.18.8</lombok.version>
-        <metricscore.version>3.2.6</metricscore.version>
         <mockito.version>2.28.2</mockito.version>
         <springboot.version>2.2.2.RELEASE</springboot.version>
         <springfox.version>2.9.2</springfox.version>
@@ -70,9 +70,9 @@
         <xmlunit.version>2.3.0</xmlunit.version>
         <jimfs.version>1.1</jimfs.version>
 
-        <powsyblcore.version>3.1.0</powsyblcore.version>
-        <powsyblcase.version>1.0.0-SNAPSHOT</powsyblcase.version>
-        <geodata.version>1.0.0-SNAPSHOT</geodata.version>
+        <powsybl-core.version>3.1.0</powsybl-core.version>
+        <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
+        <powsybl-geo-data.version>1.0.0-SNAPSHOT</powsybl-geo-data.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ../cgmes-gl-distribution/target/site/jacoco-aggregate/jacoco.xml
@@ -168,20 +168,32 @@
             <dependency>
                 <groupId>com.powsybl</groupId>
                 <artifactId>powsybl-case-datasource-client</artifactId>
-                <version>${powsyblcase.version}</version>
+                <version>${powsybl-case.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.powsybl</groupId>
-                <artifactId>powsybl-config-classic</artifactId>
-                <version>${powsyblcore.version}</version>
-                <scope>runtime</scope>
+                <artifactId>powsybl-cgmes-conversion</artifactId>
+                <version>${powsybl-core.version}</version>
             </dependency>
-
             <dependency>
-                <groupId>io.dropwizard.metrics</groupId>
-                <artifactId>metrics-core</artifactId>
-                <version>${metricscore.version}</version>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-cgmes-model</artifactId>
+                <version>${powsybl-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-geo-data-extensions</artifactId>
+                <version>${powsybl-geo-data.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-iidm-api</artifactId>
+                <version>${powsybl-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-triple-store-api</artifactId>
+                <version>${powsybl-core.version}</version>
             </dependency>
 
             <dependency>
@@ -194,20 +206,11 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.powsybl</groupId>
-                <artifactId>powsybl-config-test</artifactId>
-                <version>${powsyblcore.version}</version>
-                <scope>test</scope>
-            </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -216,32 +219,83 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Runtime dependencies -->
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-config-classic</artifactId>
+                <version>${powsybl-core.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-iidm-impl</artifactId>
+                <version>${powsybl-core.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>powsybl-triple-store-impl-rdf4j</artifactId>
+                <version>${powsybl-core.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
             <!-- Test dependencies -->
+            <dependency>
+                <groupId>com.google.jimfs</groupId>
+                <artifactId>jimfs</artifactId>
+                <version>${jimfs.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${springboot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-config-test</artifactId>
+                <version>${powsybl-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-cgmes-conformity</artifactId>
+                <version>${powsybl-core.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-cgmes-model</artifactId>
+                <version>${powsybl-core.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-geo-data-extensions</artifactId>
+                <version>${powsybl-geo-data.version}</version>
+                <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
         </dependencies>

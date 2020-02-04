@@ -16,15 +16,16 @@ import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -91,7 +92,7 @@ public class CgmesGlService {
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
-        return importer.importData(caseServerDataSource, new NetworkFactoryImpl(), properties);
+        return importer.importData(caseServerDataSource, properties);
     }
 
     CaseDataSourceClient createCaseServerDataSource() {
