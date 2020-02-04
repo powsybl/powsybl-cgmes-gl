@@ -64,6 +64,6 @@ public class CgmesGlServiceTest {
 
         CgmesNetworkFromZipTest.checkExtensions(network, new HashSet<>());
 
-        cgmesGlService.toGeodDataServer(CASENAME, new HashSet<>());
+        cgmesGlService.toGeoDataServer(CASENAME, new HashSet<>());
     }
 }
