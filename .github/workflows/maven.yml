@@ -32,7 +32,7 @@ jobs:
           ref: refs/heads/master
 
       - name: Build and install powsybl geo data with Maven
-        run: mvn --batch-mode  -DskipTests=true --file ../powsybl-geo-data/pom.xml install
+        run: mvn --batch-mode -DskipTests=true --file ../powsybl-geo-data/pom.xml install
 
       - name: Checkout powsybl case-server sources
         uses: actions/checkout@v1
@@ -41,17 +41,17 @@ jobs:
           ref: refs/heads/master
 
       - name: Build and install case serve with Maven
-        run: mvn --batch-mode  -DskipTests=true --file ../powsybl-case-server/pom.xml install
+        run: mvn --batch-mode -DskipTests=true --file ../powsybl-case-server/pom.xml install
 
       - name: Checkout sources
         uses: actions/checkout@v1
 
       - name: Build with Maven
-        run: mvn --batch-mode package
+        run: mvn --batch-mode -Pjacoco install
 
       - name: Run SonarCloud analysis
         run: >
-          mvn --batch-mode -Pjacoco verify sonar:sonar
+          mvn --batch-mode -DskipTests sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=powsybl-ci-github
           -Dsonar.projectKey=com.powsybl:powsybl-cgmes-gl
