@@ -25,7 +25,6 @@ jobs:
       - name: Build and install network store client with Maven
         run: mvn --batch-mode -Pclient -DskipTests=true --file ../powsybl-network-store/pom.xml install
 
-
       - name: Checkout powsybl geo-data sources
         uses: actions/checkout@v1
         with:
@@ -34,7 +33,6 @@ jobs:
 
       - name: Build and install powsybl geo data with Maven
         run: mvn --batch-mode  -DskipTests=true --file ../powsybl-geo-data/pom.xml install
-
 
       - name: Checkout powsybl case-server sources
         uses: actions/checkout@v1
@@ -60,3 +58,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Build Docker image
+        if: github.ref == 'refs/heads/master'
+        run: >
+          mvn --batch-mode --file cgmes-gl-server/pom.xml jib:build
+          -Djib.httpTimeout=60000
+          -Djib.to.image=docker.io/powsybl/cgmes-gl-server
+          -Djib.to.auth.username=powsyblci
+          -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }}
