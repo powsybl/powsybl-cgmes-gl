@@ -58,7 +58,7 @@
         <maven.jib.version>2.1.0</maven.jib.version>
         <maven.resources.version>3.1.0</maven.resources.version>
         <maven.site.version>3.7.1</maven.site.version>
-        <maven.surefire.version>2.22.0</maven.surefire.version>
+        <maven.surefire.version>2.22.2</maven.surefire.version>
 
         <guava.version>27.0.1-jre</guava.version>
         <junit.version>4.12</junit.version>
