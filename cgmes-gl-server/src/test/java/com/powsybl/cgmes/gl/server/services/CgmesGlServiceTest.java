@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.AdditionalAnswers.delegatesTo;
@@ -33,6 +34,7 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CgmesGlServiceTest {
+
     @Mock
     private RestTemplate geoDataServerRest;
 
@@ -42,6 +44,7 @@ public class CgmesGlServiceTest {
     @InjectMocks
     private CgmesGlService cgmesGlService =  Mockito.spy(new CgmesGlService("https://localhost:8087", "https://localhost:8085"));
 
+    private static final UUID CASE_UUID = UUID.randomUUID();
     private static final String CASENAME = "CGMES_v2_4_15_MicroGridTestConfiguration_BC_BE_v2.zip";
 
     @Before
@@ -52,16 +55,16 @@ public class CgmesGlServiceTest {
         when(caseServerDataSource.getBaseName()).then(delegatesTo(gridModel.dataSource()));
         when(caseServerDataSource.listNames(anyString())).then(delegatesTo(gridModel.dataSource()));
 
-        doReturn(caseServerDataSource).when(cgmesGlService).createCaseServerDataSource(CASENAME);
+        doReturn(caseServerDataSource).when(cgmesGlService).createCaseServerDataSource(CASE_UUID);
     }
 
     @Test
     public void test() {
-        Network network = cgmesGlService.getNetwork(CASENAME);
+        Network network = cgmesGlService.getNetwork(CASE_UUID);
         assertNotNull(network);
 
         CgmesNetworkFromZipTest.checkExtensions(network, new HashSet<>());
 
-        cgmesGlService.toGeoDataServer(CASENAME, new HashSet<>());
+        cgmesGlService.toGeoDataServer(CASE_UUID, new HashSet<>());
     }
 }

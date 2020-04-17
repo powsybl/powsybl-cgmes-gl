@@ -18,6 +18,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -42,7 +44,7 @@ public class CgmesGlControllerTest {
 
     @Test
     public void test() throws Exception {
-        mvc.perform(post("/" + CgmesGlController.API_VERSION + "/{caseName}/to-geo-data", "test"))
+        mvc.perform(post("/" + CgmesGlController.API_VERSION + "/{caseUuid}/to-geo-data", UUID.randomUUID()))
                 .andExpect(status().isOk());
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -39,13 +40,13 @@ public class CgmesGlController {
         return countries != null ? countries.stream().map(Country::valueOf).collect(Collectors.toSet()) : Collections.emptySet();
     }
 
-    @PostMapping(value = "/{caseName}/to-geo-data")
+    @PostMapping(value = "/{caseUuid}/to-geo-data")
     @ApiOperation(value = "extract geographic data from a cgmes case")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "cgmes gl profiles were analysed and sent to geo-data service")})
-    public void togeodata(@PathVariable String caseName,
+    public void togeodata(@PathVariable UUID caseUuid,
                           @RequestParam(required = false) List<String> countries) {
         Set<Country> countrySet = toCountrySet(countries);
-        cgmesGlService.toGeoDataServer(caseName, countrySet);
+        cgmesGlService.toGeoDataServer(caseUuid, countrySet);
     }
 }
 
