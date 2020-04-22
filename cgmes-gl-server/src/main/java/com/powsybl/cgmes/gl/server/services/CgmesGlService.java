@@ -8,7 +8,6 @@ package com.powsybl.cgmes.gl.server.services;
 
 import com.powsybl.cases.datasource.CaseDataSourceClient;
 import com.powsybl.cgmes.conversion.CgmesImport;
-import com.powsybl.cgmes.gl.server.CgmesException;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
 import com.powsybl.geodata.extensions.LinePosition;
@@ -16,7 +15,7 @@ import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
-import org.apache.commons.io.FilenameUtils;
+import com.powsybl.iidm.network.NetworkFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +57,8 @@ public class CgmesGlService {
         this.caseServerBaseUri = Objects.requireNonNull(caseServerBaseUri);
     }
 
-    public void toGeoDataServer(String caseName, Set<Country> countries) {
-        Network network = getNetwork(caseName);
+    public void toGeoDataServer(UUID caseUuid, Set<Country> countries) {
+        Network network = getNetwork(caseUuid);
 
         List<SubstationPosition> substationPositions = network.getSubstationStream()
                 .map(s -> (SubstationPosition) s.getExtension(SubstationPosition.class))
@@ -85,26 +84,16 @@ public class CgmesGlService {
         LOGGER.info("{} lines and {} substations are sent to the geodata server", lines.size(), substations.size());
     }
 
-    Network getNetwork(String caseName) {
-        CaseDataSourceClient caseServerDataSource = createCaseServerDataSource(checkCaseName(caseName));
-
+    Network getNetwork(UUID caseUuid) {
+        CaseDataSourceClient caseServerDataSource = createCaseServerDataSource(caseUuid);
         CgmesImport importer = new CgmesImport();
         Properties properties = new Properties();
         properties.put("iidm.import.cgmes.post-processors", "cgmesGLImport");
-        return importer.importData(caseServerDataSource, properties);
+        return importer.importData(caseServerDataSource, NetworkFactory.findDefault(), properties);
     }
 
-    CaseDataSourceClient createCaseServerDataSource(String caseName) {
-        return new CaseDataSourceClient(caseServerBaseUri, caseName);
-    }
-
-    private String checkCaseName(String caseName) {
-        //caseName should be a zipped file
-        String extension = FilenameUtils.getExtension(caseName);
-        if (!extension.equals("zip")) {
-            throw new CgmesException("File extension not supported");
-        }
-        return caseName;
+    CaseDataSourceClient createCaseServerDataSource(UUID caseUuid) {
+        return new CaseDataSourceClient(caseServerBaseUri, caseUuid);
     }
 
     private void saveData(List<SubstationGeoData> substationsGeoData, List<LineGeoData> linesGeoData) {
