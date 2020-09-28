@@ -7,9 +7,9 @@
 package com.powsybl.cgmes.gl.conversion;
 
 import com.powsybl.cgmes.model.CgmesNamespace;
-import com.powsybl.geodata.extensions.Coordinate;
 import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.triplestore.api.TripleStore;
+import org.gridsuite.geodata.extensions.Coordinate;
 
 import java.util.Arrays;
 import java.util.Collections;

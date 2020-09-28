@@ -6,10 +6,10 @@
  */
 package com.powsybl.cgmes.gl.conversion;
 
-import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.triplestore.api.TripleStore;
+import org.gridsuite.geodata.extensions.LinePosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

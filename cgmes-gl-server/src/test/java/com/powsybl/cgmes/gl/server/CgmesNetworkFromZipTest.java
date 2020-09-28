@@ -11,12 +11,12 @@ import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
 import com.powsybl.cgmes.model.test.TestGridModel;
-import com.powsybl.geodata.extensions.LinePosition;
-import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
+import org.gridsuite.geodata.extensions.LinePosition;
+import org.gridsuite.geodata.extensions.SubstationPosition;
 import org.junit.Test;
 
 import java.util.*;

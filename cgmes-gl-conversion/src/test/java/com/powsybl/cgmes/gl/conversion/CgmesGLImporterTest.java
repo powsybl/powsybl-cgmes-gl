@@ -6,7 +6,7 @@
  */
 package com.powsybl.cgmes.gl.conversion;
 
-import com.powsybl.geodata.extensions.GLTestUtils;
+import org.gridsuite.geodata.extensions.GLTestUtils;
 import com.powsybl.iidm.network.Network;
 import org.junit.Before;
 import org.junit.Test;
