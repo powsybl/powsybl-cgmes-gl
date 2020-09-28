@@ -7,19 +7,18 @@
 package com.powsybl.cgmes.gl.conversion;
 
 import com.google.common.collect.ImmutableList;
-
 import com.powsybl.cgmes.model.CgmesNamespace;
 import com.powsybl.cgmes.model.CgmesSubset;
 import com.powsybl.commons.datasource.DataSource;
-import com.powsybl.geodata.extensions.Coordinate;
-import com.powsybl.geodata.extensions.GLTestUtils;
-import com.powsybl.geodata.extensions.LinePosition;
-import com.powsybl.geodata.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.triplestore.api.TripleStore;
+import org.gridsuite.geodata.extensions.Coordinate;
+import org.gridsuite.geodata.extensions.GLTestUtils;
+import org.gridsuite.geodata.extensions.LinePosition;
+import org.gridsuite.geodata.extensions.SubstationPosition;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
@@ -29,7 +28,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.powsybl.geodata.extensions.GLTestUtils.*;
+import static org.gridsuite.geodata.extensions.GLTestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

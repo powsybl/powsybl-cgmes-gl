@@ -6,8 +6,8 @@
  */
 package com.powsybl.cgmes.gl.server.dto;
 
-import com.powsybl.geodata.extensions.Coordinate;
 import com.powsybl.iidm.network.Country;
+import org.gridsuite.geodata.extensions.Coordinate;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

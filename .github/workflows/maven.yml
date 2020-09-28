@@ -34,14 +34,14 @@ jobs:
       - name: Build and install network store client with Maven
         run: mvn --batch-mode -Pclient -DskipTests=true --file ../powsybl-network-store/pom.xml install
 
-      - name: Checkout powsybl geo-data sources
+      - name: Checkout geo-data sources
         uses: actions/checkout@v1
         with:
-          repository: powsybl/powsybl-geo-data
+          repository: gridsuite/geo-data
           ref: refs/heads/master
 
-      - name: Build and install powsybl geo data with Maven
-        run: mvn --batch-mode -DskipTests=true --file ../powsybl-geo-data/pom.xml install
+      - name: Build and install geo data with Maven
+        run: mvn --batch-mode -DskipTests=true --file ../geo-data/pom.xml install
 
       - name: Checkout powsybl case-server sources
         uses: actions/checkout@v1

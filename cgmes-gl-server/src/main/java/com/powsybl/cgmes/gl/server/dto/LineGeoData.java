@@ -6,11 +6,11 @@
  */
 package com.powsybl.cgmes.gl.server.dto;
 
-import com.powsybl.geodata.extensions.Coordinate;
-import com.powsybl.geodata.extensions.LinePosition;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import lombok.*;
+import org.gridsuite.geodata.extensions.Coordinate;
+import org.gridsuite.geodata.extensions.LinePosition;
 
 import java.util.ArrayList;
 import java.util.List;

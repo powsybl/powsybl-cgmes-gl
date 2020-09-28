@@ -12,7 +12,7 @@ import org.junit.Before;
 
 import java.util.Arrays;
 
-import static com.powsybl.geodata.extensions.GLTestUtils.*;
+import static org.gridsuite.geodata.extensions.GLTestUtils.*;
 
 /**
  *

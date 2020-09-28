@@ -123,8 +123,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.powsybl</groupId>
-            <artifactId>powsybl-geo-data-extensions</artifactId>
+            <groupId>org.gridsuite</groupId>
+            <artifactId>gridsuite-geo-data-extensions</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

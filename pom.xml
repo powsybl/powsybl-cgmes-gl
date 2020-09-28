@@ -67,7 +67,7 @@
 
         <powsybl-core.version>3.6.0</powsybl-core.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
-        <powsybl-geo-data.version>1.0.0-SNAPSHOT</powsybl-geo-data.version>
+        <gridsuite-geo-data.version>1.0.0-SNAPSHOT</gridsuite-geo-data.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ../cgmes-gl-distribution/target/site/jacoco-aggregate/jacoco.xml
@@ -97,9 +97,9 @@
                 <version>${powsybl-core.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.powsybl</groupId>
-                <artifactId>powsybl-geo-data-extensions</artifactId>
-                <version>${powsybl-geo-data.version}</version>
+                <groupId>org.gridsuite</groupId>
+                <artifactId>gridsuite-geo-data-extensions</artifactId>
+                <version>${gridsuite-geo-data.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.powsybl</groupId>
@@ -208,9 +208,9 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.powsybl</groupId>
-                <artifactId>powsybl-geo-data-extensions</artifactId>
-                <version>${powsybl-geo-data.version}</version>
+                <groupId>org.gridsuite</groupId>
+                <artifactId>gridsuite-geo-data-extensions</artifactId>
+                <version>${gridsuite-geo-data.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
