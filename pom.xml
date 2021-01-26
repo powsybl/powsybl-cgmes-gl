@@ -83,6 +83,11 @@
         <dependencies>
             <!-- Compilation dependencies -->
             <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.powsybl</groupId>
                 <artifactId>powsybl-case-datasource-client</artifactId>
                 <version>${powsybl-case.version}</version>
