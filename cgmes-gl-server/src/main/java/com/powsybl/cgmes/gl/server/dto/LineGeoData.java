@@ -8,6 +8,7 @@ package com.powsybl.cgmes.gl.server.dto;
 
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
+import com.powsybl.iidm.network.Substation;
 import lombok.*;
 import org.gridsuite.geodata.extensions.Coordinate;
 import org.gridsuite.geodata.extensions.LinePosition;
@@ -36,8 +37,8 @@ public class LineGeoData {
 
     public static LineGeoData fromLinePosition(LinePosition linePosition) {
         Line l = (Line) linePosition.getExtendable();
-        Country country1 = l.getTerminal1().getVoltageLevel().getSubstation().getCountry().orElse(null);
-        Country country2 = l.getTerminal2().getVoltageLevel().getSubstation().getCountry().orElse(null);
+        Country country1 = l.getTerminal1().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
+        Country country2 = l.getTerminal2().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
 
         return new LineGeoData(l.getId(), country1, country2, linePosition.getCoordinates());
     }
