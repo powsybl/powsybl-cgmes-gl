@@ -14,6 +14,7 @@ import com.powsybl.cgmes.model.test.TestGridModel;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
+import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
 import org.gridsuite.geodata.extensions.LinePosition;
 import org.gridsuite.geodata.extensions.SubstationPosition;
@@ -47,16 +48,14 @@ public class CgmesNetworkFromZipTest {
         List<SubstationPosition> substationPositions = network.getSubstationStream()
                 .map(s -> (SubstationPosition) s.getExtension(SubstationPosition.class))
                 .filter(Objects::nonNull)
-                .filter(s -> countries.isEmpty() || countries.contains(s.getExtendable().getCountry()))
+                .filter(s -> countries.isEmpty() || s.getExtendable().getCountry().map(countries::contains).orElse(false))
                 .collect(Collectors.toList());
 
         List<LinePosition<Line>> linePositions = new ArrayList<>();
-        Country country1;
-        Country country2;
         for (Line line : network.getLines()) {
             LinePosition<Line> linePosition = line.getExtension(LinePosition.class);
-            country1 = line.getTerminal1().getVoltageLevel().getSubstation().getCountry().orElse(null);
-            country2 = line.getTerminal2().getVoltageLevel().getSubstation().getCountry().orElse(null);
+            Country country1 = line.getTerminal1().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
+            Country country2 = line.getTerminal2().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
             if (linePosition != null && (countries.isEmpty() || countries.contains(country1) || countries.contains(country2))) {
                 linePositions.add(linePosition);
             }

@@ -10,10 +10,7 @@ import com.powsybl.cases.datasource.CaseDataSourceClient;
 import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
-import com.powsybl.iidm.network.Country;
-import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.NetworkFactory;
+import com.powsybl.iidm.network.*;
 import org.gridsuite.geodata.extensions.LinePosition;
 import org.gridsuite.geodata.extensions.SubstationPosition;
 import org.slf4j.Logger;
@@ -71,8 +68,8 @@ public class CgmesGlService {
         Country country2;
         for (Line line : network.getLines()) {
             LinePosition<Line> linePosition = line.getExtension(LinePosition.class);
-            country1 = line.getTerminal1().getVoltageLevel().getSubstation().getCountry().orElse(null);
-            country2 = line.getTerminal2().getVoltageLevel().getSubstation().getCountry().orElse(null);
+            country1 = line.getTerminal1().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
+            country2 = line.getTerminal2().getVoltageLevel().getSubstation().flatMap(Substation::getCountry).orElse(null);
             if (linePosition != null && (countries.isEmpty() || countries.contains(country1) || countries.contains(country2))) {
                 linePositions.add(linePosition);
             }
