@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl-parent-ws</artifactId>
-        <version>5</version>
+        <version>7</version>
     </parent>
 
     <artifactId>powsybl-cgmes-gl</artifactId>
@@ -64,6 +64,7 @@
         <powsybl-core.version>4.4.0</powsybl-core.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
         <gridsuite-geo-data.version>1.0.0-SNAPSHOT</gridsuite-geo-data.version>
+        <powsybl-ws-commons.version>1.0.0</powsybl-ws-commons.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ../cgmes-gl-distribution/target/site/jacoco-aggregate/jacoco.xml
@@ -104,6 +105,11 @@
                 <groupId>com.powsybl</groupId>
                 <artifactId>powsybl-case-datasource-client</artifactId>
                 <version>${powsybl-case.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.powsybl</groupId>
+                <artifactId>powsybl-ws-commons</artifactId>
+                <version>${powsybl-ws-commons.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
