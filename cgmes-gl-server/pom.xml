@@ -19,10 +19,6 @@
     <name>CGMES GL server</name>
     <description>CGMES GL server</description>
 
-    <properties>
-        <jib.container.environment>SPRING_PROFILES_ACTIVE=default</jib.container.environment>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
