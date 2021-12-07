@@ -19,9 +19,6 @@
     <name>CGMES GL server</name>
     <description>CGMES GL server</description>
 
-    <properties>
-    </properties>
-
     <build>
         <pluginManagement>
             <plugins>
