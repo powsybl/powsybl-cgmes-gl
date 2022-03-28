@@ -8,10 +8,10 @@ package com.powsybl.cgmes.gl.server;
 
 import com.powsybl.cgmes.gl.server.services.CgmesGlService;
 import com.powsybl.iidm.network.Country;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping(value = "/" + CgmesGlController.API_VERSION)
-@Api(value = "Cgmes gl")
+@Tag(name = "Cgmes gl")
 @ComponentScan(basePackageClasses = {CgmesGlController.class})
 public class CgmesGlController {
 
@@ -41,8 +41,8 @@ public class CgmesGlController {
     }
 
     @PostMapping(value = "/{caseUuid}/to-geo-data")
-    @ApiOperation(value = "extract geographic data from a cgmes case")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "cgmes gl profiles were analysed and sent to geo-data service")})
+    @Operation(summary = "extract geographic data from a cgmes case")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "cgmes gl profiles were analysed and sent to geo-data service")})
     public void togeodata(@PathVariable UUID caseUuid,
                           @RequestParam(required = false) List<String> countries) {
         Set<Country> countrySet = toCountrySet(countries);
