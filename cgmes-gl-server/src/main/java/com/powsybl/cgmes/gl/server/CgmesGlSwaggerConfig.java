@@ -16,32 +16,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class CgmesGlSwaggerConfig {
-    /*@Bean
-    public Docket produceApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage(CgmesGlApplication.class.getPackage().getName()))
-                .paths(paths())
-                .build();
-    }
-
-    // Describe your apis
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("CGMES GL API")
-                .description("This is the documentation of PowSyBl CGMES GL API")
-                .version(CgmesGlController.API_VERSION)
-                .build();
-    }
-
-    // Only select apis that matches the given Predicates.
-    private Predicate<String> paths() {
-        // Match all paths except /error
-        return Predicates.and(PathSelectors.regex("/" + CgmesGlController.API_VERSION + ".*"), Predicates.not(PathSelectors.regex("/error.*"))::apply);
-    }*/
     @Bean
-    public OpenAPI creOpenAPI() {
+    public OpenAPI createOpenApi() {
         return new OpenAPI()
              .info(new Info()
                   .title("CGMES GL API")
