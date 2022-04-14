@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.powsybl</groupId>
         <artifactId>powsybl-parent-ws</artifactId>
-        <version>7</version>
+        <version>8</version>
     </parent>
 
     <artifactId>powsybl-cgmes-gl</artifactId>
@@ -55,16 +55,15 @@
 
         <java.version>11</java.version>
 
-        <!-- 4.13.1 is incompatible with spring-boot-starter-test -->
-        <junit.version>4.13</junit.version>
         <lombok.version>1.18.8</lombok.version>
-        <springboot.version>2.4.7</springboot.version>
-        <springfox.version>2.9.2</springfox.version>
+        <springboot.version>2.6.6</springboot.version>
+        <springdoc-openapi.version>1.5.13</springdoc-openapi.version>
 
         <powsybl-core.version>4.7.0</powsybl-core.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
         <gridsuite-geo-data.version>1.0.0-SNAPSHOT</gridsuite-geo-data.version>
         <powsybl-ws-commons.version>1.1.0</powsybl-ws-commons.version>
+        <jackson.version>2.13.2.20220328</jackson.version>
 
         <sonar.coverage.jacoco.xmlReportPaths>
             ../cgmes-gl-distribution/target/site/jacoco-aggregate/jacoco.xml
@@ -78,10 +77,16 @@
     <dependencyManagement>
         <dependencies>
             <!-- overrides of imports -->
+
+            <!-- The version 2.10 put by Powsybl cause a problem. spring boot 2.6 needs at least 2.13: https://github.com/FasterXML/jackson-databind/issues/2683 -->
+            <!-- java.lang.NoSuchMethodError: 'boolean com.fasterxml.jackson.databind.SerializationConfig.hasExplicitTimeZone()' -->
+            <!-- Use the version from spring boot 2.6.6 which contains the fix for the  spring 4 shell CVE -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- imports -->
@@ -100,6 +105,14 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- springfox cause problem with spring boot 2.6.6: https://github.com/springfox/springfox/issues/3982 -->
+            <!-- migration from springfox to springdoc guide: https://springdoc.org/#migrating-from-springfox -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
+            </dependency>
+
             <!-- project specific dependencies (also overrides imports, but separate for clarity) -->
             <dependency>
                 <groupId>com.powsybl</groupId>
@@ -110,16 +123,6 @@
                 <groupId>com.powsybl</groupId>
                 <artifactId>powsybl-ws-commons</artifactId>
                 <version>${powsybl-ws-commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
