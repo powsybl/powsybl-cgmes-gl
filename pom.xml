@@ -58,7 +58,6 @@
         <lombok.version>1.18.8</lombok.version>
         <springboot.version>2.6.6</springboot.version>
         <springdoc-openapi.version>1.5.13</springdoc-openapi.version>
-        <swagger-annotations.version>2.1.10</swagger-annotations.version>
 
         <powsybl-core.version>4.7.0</powsybl-core.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
@@ -140,11 +139,6 @@
                 <artifactId>gridsuite-geo-data-extensions</artifactId>
                 <version>${gridsuite-geo-data.version}</version>
                 <type>test-jar</type>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
