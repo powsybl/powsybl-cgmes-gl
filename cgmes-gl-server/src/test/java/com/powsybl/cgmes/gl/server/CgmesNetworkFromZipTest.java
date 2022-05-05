@@ -16,8 +16,8 @@ import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
-import org.gridsuite.geodata.extensions.LinePosition;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.LinePosition;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
 import org.junit.Test;
 
 import java.util.*;

@@ -11,8 +11,8 @@ import com.powsybl.cgmes.conversion.CgmesImport;
 import com.powsybl.cgmes.gl.server.dto.LineGeoData;
 import com.powsybl.cgmes.gl.server.dto.SubstationGeoData;
 import com.powsybl.cgmes.model.test.TestGridModel;
-import org.gridsuite.geodata.extensions.LinePosition;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.LinePosition;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.impl.NetworkFactoryImpl;
@@ -68,7 +68,7 @@ public class CgmesGeoDataTest {
         assertEquals(2, substations.size());
         assertEquals(2, lines.size());
 
-        assertEquals(51.3251, substations.get(0).getCoordinate().getLat(), 0);
-        assertEquals(4.25926, substations.get(0).getCoordinate().getLon(), 0);
+        assertEquals(51.3251, substations.get(0).getCoordinate().getLatitude(), 0);
+        assertEquals(4.25926, substations.get(0).getCoordinate().getLongitude(), 0);
     }
 }

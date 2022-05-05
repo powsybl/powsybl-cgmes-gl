@@ -10,8 +10,9 @@ import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.triplestore.api.PropertyBag;
-import org.gridsuite.geodata.extensions.Coordinate;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.Coordinate;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
+import com.powsybl.iidm.network.impl.extensions.SubstationPositionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class SubstationPositionImporter {
         String substationId = substationPositionData.getId("powerSystemResource");
         Substation substation = network.getSubstation(substationId);
         if (substation != null) {
-            SubstationPosition substationPosition = new SubstationPosition(substation,
+            SubstationPosition substationPosition = new SubstationPositionImpl(substation,
                     new Coordinate(substationPositionData.asDouble("y"), substationPositionData.asDouble("x")));
             // y <=> lat, x <=> lon
             substation.addExtension(SubstationPosition.class, substationPosition);

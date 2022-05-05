@@ -9,8 +9,8 @@ package com.powsybl.cgmes.gl.server.dto;
 import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Substation;
 import lombok.*;
-import org.gridsuite.geodata.extensions.Coordinate;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.Coordinate;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
 
 /**
  * @author Chamseddine Benhamed <chamseddine.benhamed at rte-france.com>

@@ -11,8 +11,9 @@ import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.triplestore.api.PropertyBag;
-import org.gridsuite.geodata.extensions.Coordinate;
-import org.gridsuite.geodata.extensions.LinePosition;
+import com.powsybl.iidm.network.extensions.Coordinate;
+import com.powsybl.iidm.network.extensions.LinePosition;
+import com.powsybl.iidm.network.impl.extensions.LinePositionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,13 +45,13 @@ public class LinePositionImporter {
         for (Map.Entry<Line, SortedMap<Integer, Coordinate>> e : lineCoordinates.entrySet()) {
             Line line = e.getKey();
             SortedMap<Integer, Coordinate> coordinates = e.getValue();
-            line.addExtension(LinePosition.class, new LinePosition<>(line, new ArrayList<>(coordinates.values())));
+            line.addExtension(LinePosition.class, new LinePositionImpl<>(line, new ArrayList<>(coordinates.values())));
         }
 
         for (Map.Entry<DanglingLine, SortedMap<Integer, Coordinate>> e : danglingLineCoordinates.entrySet()) {
             DanglingLine danglingLine = e.getKey();
             SortedMap<Integer, Coordinate> coordinates = e.getValue();
-            danglingLine.addExtension(LinePosition.class, new LinePosition<>(danglingLine, new ArrayList<>(coordinates.values())));
+            danglingLine.addExtension(LinePosition.class, new LinePositionImpl<>(danglingLine, new ArrayList<>(coordinates.values())));
         }
     }
 
