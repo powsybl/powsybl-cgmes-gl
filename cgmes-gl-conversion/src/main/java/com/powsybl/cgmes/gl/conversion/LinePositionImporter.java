@@ -12,8 +12,7 @@ import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.iidm.network.extensions.Coordinate;
-import com.powsybl.iidm.network.extensions.LinePosition;
-import com.powsybl.iidm.network.impl.extensions.LinePositionImpl;
+import com.powsybl.iidm.network.extensions.LinePositionAdder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,13 +44,13 @@ public class LinePositionImporter {
         for (Map.Entry<Line, SortedMap<Integer, Coordinate>> e : lineCoordinates.entrySet()) {
             Line line = e.getKey();
             SortedMap<Integer, Coordinate> coordinates = e.getValue();
-            line.addExtension(LinePosition.class, new LinePositionImpl<>(line, new ArrayList<>(coordinates.values())));
+            line.newExtension(LinePositionAdder.class).withCoordinates(new ArrayList<>(coordinates.values())).add();
         }
 
         for (Map.Entry<DanglingLine, SortedMap<Integer, Coordinate>> e : danglingLineCoordinates.entrySet()) {
             DanglingLine danglingLine = e.getKey();
             SortedMap<Integer, Coordinate> coordinates = e.getValue();
-            danglingLine.addExtension(LinePosition.class, new LinePositionImpl<>(danglingLine, new ArrayList<>(coordinates.values())));
+            danglingLine.newExtension(LinePositionAdder.class).withCoordinates(new ArrayList<>(coordinates.values())).add();
         }
     }
 
