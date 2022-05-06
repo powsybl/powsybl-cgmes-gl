@@ -8,7 +8,7 @@ package com.powsybl.cgmes.gl.conversion;
 
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.triplestore.api.TripleStore;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

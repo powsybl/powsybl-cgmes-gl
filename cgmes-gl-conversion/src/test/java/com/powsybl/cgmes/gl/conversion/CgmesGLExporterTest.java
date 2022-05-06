@@ -15,10 +15,11 @@ import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.triplestore.api.PropertyBag;
 import com.powsybl.triplestore.api.TripleStore;
-import org.gridsuite.geodata.extensions.Coordinate;
-import org.gridsuite.geodata.extensions.GLTestUtils;
-import org.gridsuite.geodata.extensions.LinePosition;
-import org.gridsuite.geodata.extensions.SubstationPosition;
+import com.powsybl.iidm.network.extensions.Coordinate;
+import com.powsybl.iidm.network.extensions.LinePosition;
+import com.powsybl.iidm.network.extensions.SubstationPosition;
+import com.powsybl.iidm.network.impl.extensions.SubstationPositionImpl;
+import com.powsybl.iidm.network.impl.extensions.LinePositionImpl;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
@@ -28,7 +29,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.gridsuite.geodata.extensions.GLTestUtils.*;
+import static com.powsybl.cgmes.gl.conversion.GLTestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -42,13 +43,13 @@ public class CgmesGLExporterTest {
     public void test() {
         Network network = GLTestUtils.getNetwork();
         Substation substation1 = network.getSubstation("Substation1");
-        SubstationPosition substationPosition1 = new SubstationPosition(substation1, SUBSTATION_1);
+        SubstationPosition substationPosition1 = new SubstationPositionImpl(substation1, SUBSTATION_1);
         substation1.addExtension(SubstationPosition.class, substationPosition1);
         Substation substation2 = network.getSubstation("Substation2");
-        SubstationPosition substationPosition2 = new SubstationPosition(substation2, SUBSTATION_2);
+        SubstationPosition substationPosition2 = new SubstationPositionImpl(substation2, SUBSTATION_2);
         substation2.addExtension(SubstationPosition.class, substationPosition2);
         Line line = network.getLine("Line");
-        line.addExtension(LinePosition.class, new LinePosition<>(line, ImmutableList.of(SUBSTATION_1, LINE_1, LINE_2, SUBSTATION_2)));
+        line.addExtension(LinePosition.class, new LinePositionImpl<>(line, ImmutableList.of(SUBSTATION_1, LINE_1, LINE_2, SUBSTATION_2)));
 
         TripleStore tripleStore = Mockito.mock(TripleStore.class);
         Mockito.when(tripleStore.add(Matchers.any(String.class), Matchers.eq(CgmesNamespace.CIM_16_NAMESPACE),
@@ -140,8 +141,8 @@ public class CgmesGLExporterTest {
         checkProperties(context, namespace, type, properties, basename, "PositionPoint",
                         expectedSeq == -1 ? Arrays.asList("xPosition", "yPosition", "Location") : Arrays.asList("xPosition", "yPosition", "sequenceNumber", "Location"),
                         Arrays.asList("Location"), Collections.emptyList());
-        assertEquals(expectedCoordinate.getLon(), properties.asDouble("xPosition"), 0);
-        assertEquals(expectedCoordinate.getLat(), properties.asDouble("yPosition"), 0);
+        assertEquals(expectedCoordinate.getLongitude(), properties.asDouble("xPosition"), 0);
+        assertEquals(expectedCoordinate.getLatitude(), properties.asDouble("yPosition"), 0);
         if (expectedSeq != -1) {
             assertEquals(expectedSeq, properties.asInt("sequenceNumber"), 0);
         }

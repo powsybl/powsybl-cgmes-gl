@@ -61,7 +61,6 @@
 
         <powsybl-core.version>4.8.0</powsybl-core.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
-        <gridsuite-geo-data.version>1.0.0-SNAPSHOT</gridsuite-geo-data.version>
         <powsybl-ws-commons.version>1.1.0</powsybl-ws-commons.version>
         <jackson.version>2.13.2.20220328</jackson.version>
 
@@ -128,17 +127,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.gridsuite</groupId>
-                <artifactId>gridsuite-geo-data-extensions</artifactId>
-                <version>${gridsuite-geo-data.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.gridsuite</groupId>
-                <artifactId>gridsuite-geo-data-extensions</artifactId>
-                <version>${gridsuite-geo-data.version}</version>
-                <type>test-jar</type>
             </dependency>
         </dependencies>
     </dependencyManagement>

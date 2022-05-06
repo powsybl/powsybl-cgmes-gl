@@ -10,8 +10,8 @@ import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Substation;
 import lombok.*;
-import org.gridsuite.geodata.extensions.Coordinate;
-import org.gridsuite.geodata.extensions.LinePosition;
+import com.powsybl.iidm.network.extensions.Coordinate;
+import com.powsybl.iidm.network.extensions.LinePosition;
 
 import java.util.ArrayList;
 import java.util.List;
