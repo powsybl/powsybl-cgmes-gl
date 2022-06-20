@@ -23,7 +23,6 @@
     <name>CGMES GL</name>
 
     <modules>
-        <module>cgmes-gl-conversion</module>
         <module>cgmes-gl-server</module>
         <module>cgmes-gl-distribution</module>
     </modules>

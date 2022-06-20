@@ -74,6 +74,14 @@
         </dependency>
         <dependency>
             <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-iidm-extensions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-cgmes-conversion</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.powsybl</groupId>
             <artifactId>powsybl-case-datasource-client</artifactId>
         </dependency>
         <dependency>
@@ -85,16 +93,15 @@
             <artifactId>powsybl-triple-store-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.powsybl</groupId>
-            <artifactId>powsybl-cgmes-gl-conversion</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- Runtime scope -->
         <dependency>
             <groupId>com.powsybl</groupId>
             <artifactId>powsybl-config-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.powsybl</groupId>
+            <artifactId>powsybl-cgmes-gl</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

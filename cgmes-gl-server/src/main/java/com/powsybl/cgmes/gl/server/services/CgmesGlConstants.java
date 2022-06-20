@@ -15,5 +15,4 @@ public final class CgmesGlConstants {
     }
 
     static final String GEO_DATA_API_VERSION = "v1";
-    static final String CASE_API_VERSION = "v1";
 }
