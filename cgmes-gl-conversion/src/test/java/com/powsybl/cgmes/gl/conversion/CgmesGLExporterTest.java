@@ -22,7 +22,7 @@ import com.powsybl.iidm.network.impl.extensions.SubstationPositionImpl;
 import com.powsybl.iidm.network.impl.extensions.LinePositionImpl;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -52,8 +52,8 @@ public class CgmesGLExporterTest {
         line.addExtension(LinePosition.class, new LinePositionImpl<>(line, ImmutableList.of(SUBSTATION_1, LINE_1, LINE_2, SUBSTATION_2)));
 
         TripleStore tripleStore = Mockito.mock(TripleStore.class);
-        Mockito.when(tripleStore.add(Matchers.any(String.class), Matchers.eq(CgmesNamespace.CIM_16_NAMESPACE),
-                                     Matchers.eq("CoordinateSystem"), Matchers.any(PropertyBag.class)))
+        Mockito.when(tripleStore.add(ArgumentMatchers.any(String.class), ArgumentMatchers.eq(CgmesNamespace.CIM_16_NAMESPACE),
+                                     ArgumentMatchers.eq("CoordinateSystem"), ArgumentMatchers.any(PropertyBag.class)))
                                 .thenReturn("CoordinateSystemId");
 
         DataSource dataSource = Mockito.mock(DataSource.class);

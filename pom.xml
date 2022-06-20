@@ -55,11 +55,11 @@
 
         <java.version>11</java.version>
 
-        <lombok.version>1.18.8</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <springboot.version>2.6.6</springboot.version>
         <springdoc-openapi.version>1.5.13</springdoc-openapi.version>
 
-        <powsybl-core.version>4.8.0</powsybl-core.version>
+        <powsybl-dependencies.version>1.2.0</powsybl-dependencies.version>
         <powsybl-case.version>1.0.0-SNAPSHOT</powsybl-case.version>
         <powsybl-ws-commons.version>1.1.0</powsybl-ws-commons.version>
         <jackson.version>2.13.2.20220328</jackson.version>
@@ -91,8 +91,8 @@
             <!-- imports -->
             <dependency>
                 <groupId>com.powsybl</groupId>
-                <artifactId>powsybl-core</artifactId>
-                <version>${powsybl-core.version}</version>
+                <artifactId>powsybl-dependencies</artifactId>
+                <version>${powsybl-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

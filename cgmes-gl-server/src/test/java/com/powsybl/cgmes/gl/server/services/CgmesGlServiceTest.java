@@ -7,7 +7,7 @@
 package com.powsybl.cgmes.gl.server.services;
 
 import com.powsybl.cases.datasource.CaseDataSourceClient;
-import com.powsybl.cgmes.conformity.test.CgmesConformity1Catalog;
+import com.powsybl.cgmes.conformity.CgmesConformity1Catalog;
 import com.powsybl.cgmes.gl.server.CgmesNetworkFromZipTest;
 import com.powsybl.cgmes.model.test.TestGridModel;
 import com.powsybl.iidm.network.Network;
